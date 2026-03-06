@@ -1,3 +1,62 @@
+
+const SALARY_TABLE = {
+  "Pre-Seed": {
+    "CxO/役員":          { min: 400,  max: 800  },
+    "事業開発/BizDev":   { min: 400,  max: 600  },
+    "営業":              { min: 350,  max: 550  },
+    "エンジニア":        { min: 450,  max: 700  },
+    "PM/PdM":            { min: 450,  max: 650  },
+    "マーケ/PR":         { min: 350,  max: 550  },
+    "CS/オペレーション": { min: 300,  max: 500  },
+    "その他":            { min: 300,  max: 500  },
+  },
+  "Seed": {
+    "CxO/役員":          { min: 600,  max: 1000 },
+    "事業開発/BizDev":   { min: 500,  max: 700  },
+    "営業":              { min: 400,  max: 650  },
+    "エンジニア":        { min: 500,  max: 800  },
+    "PM/PdM":            { min: 500,  max: 750  },
+    "マーケ/PR":         { min: 400,  max: 650  },
+    "CS/オペレーション": { min: 350,  max: 550  },
+    "その他":            { min: 350,  max: 550  },
+  },
+  "Pre-Series A": {
+    "CxO/役員":          { min: 700,  max: 1200 },
+    "事業開発/BizDev":   { min: 550,  max: 800  },
+    "営業":              { min: 450,  max: 700  },
+    "エンジニア":        { min: 550,  max: 850  },
+    "PM/PdM":            { min: 550,  max: 800  },
+    "マーケ/PR":         { min: 450,  max: 700  },
+    "CS/オペレーション": { min: 400,  max: 600  },
+    "その他":            { min: 400,  max: 600  },
+  },
+  "Series A": {
+    "CxO/役員":          { min: 800,  max: 1500 },
+    "事業開発/BizDev":   { min: 600,  max: 900  },
+    "営業":              { min: 500,  max: 800  },
+    "エンジニア":        { min: 600,  max: 1000 },
+    "PM/PdM":            { min: 600,  max: 900  },
+    "マーケ/PR":         { min: 500,  max: 800  },
+    "CS/オペレーション": { min: 450,  max: 700  },
+    "その他":            { min: 450,  max: 700  },
+  },
+  "Growth": {
+    "CxO/役員":          { min: 1200, max: 2500 },
+    "事業開発/BizDev":   { min: 700,  max: 1200 },
+    "営業":              { min: 600,  max: 1000 },
+    "エンジニア":        { min: 700,  max: 1300 },
+    "PM/PdM":            { min: 700,  max: 1200 },
+    "マーケ/PR":         { min: 600,  max: 1000 },
+    "CS/オペレーション": { min: 500,  max: 800  },
+    "その他":            { min: 500,  max: 900  },
+  },
+};
+
+function getSalaryRange(stage, positionCategory) {
+  const stageData = SALARY_TABLE[stage] || SALARY_TABLE["Seed"];
+  return stageData[positionCategory] || stageData["その他"];
+}
+
 const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
 const { Anonymizer } = require("./anonymizer");
@@ -13,7 +72,7 @@ SEPは、成長志向のスタートアップCEOに対してCxO人材紹介・Bi
 name, current_role, career_summary, domain_expertise[], skills[], management_exp, strengths[], career_aspiration,
 estimated_age（レジュメから推定。不明なら"不明"）,
 current_salary（レジュメに明記があれば数値で万円単位の整数、なければnull）,
-estimated_salary（職歴・役職・年齢から推定した年収を万円単位の整数で。外資系グローバル企業在籍歴ありなら2倍以上に補正。current_salaryがある場合はその値を使う）,
+estimated_salary（職歴・役職・年齢から推定した年収を万円単位の整数で。外資系グローバル企業在籍歴ありなら2倍以上に補正。さらに役職レベルでも補正すること：VP/執行役員以上→x1.8〜2.0、シニアマネージャー/部長（10名以上）→x1.5、リーダー/マネージャー（3〜10名）→x1.3、個人プレイヤー→x1.0。複数該当する場合は掛け合わせて計算。current_salaryがある場合はその値を使う）,
 position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニア", "PM/PdM", "マーケ/PR", "CS/オペレーション", "その他"から1つ）
 
 ## Step 2: マッチング推薦（TOP3）
