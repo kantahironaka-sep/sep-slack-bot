@@ -156,7 +156,7 @@ app.event("message", async ({ event, client }) => {
       } catch(e) {}
 
       const jobLinks = await findJobUrls(result.matches || []);
-      await client.chat.postMessage({
+      const headerMsg = await client.chat.postMessage({
         channel: RESULT_CHANNEL,
         blocks: [
           { type:"header", text:{ type:"plain_text", text:"🔔 新規レジュメ検出 - 自動マッチング", emoji:true }},
@@ -166,12 +166,18 @@ app.event("message", async ({ event, client }) => {
             "🕐 *受信日時:* " + timestamp + "\n" +
             "🔗 *元投稿:* " + (permalink ? "<" + permalink + "|スレッドを開く>" : "N/A") +
             "\n📎 *添付:* " + resumeFiles.map(f=>f.name).join(", ") +
-            "\n━━━━━━━━━━━━━━━━"
+            "\n👤 *候補者:* " + (result.profile?.name || "候補者X") +
+            "\n📋 *マッチ数:* " + (result.matches?.length || 0) + "社" +
+            "\n━━━━━━━━━━━━━━━━\n_⬇️ マッチング結果はスレッドを確認_"
           }},
-          { type:"divider" },
-          ...formatMatchResult(result, jobLinks),
         ],
         text: "新規レジュメ: " + (result.profile?.name || "候補者X"),
+      });
+      await client.chat.postMessage({
+        channel: RESULT_CHANNEL,
+        thread_ts: headerMsg.ts,
+        blocks: formatMatchResult(result, jobLinks),
+        text: "マッチング結果: " + (result.profile?.name || "候補者X"),
       });
       console.log("✅ 結果チャンネルに投稿完了");
     }
