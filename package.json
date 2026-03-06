@@ -1,0 +1,16 @@
+{
+  "name": "sep-talent-matcher-bot",
+  "version": "1.0.0",
+  "description": "SEP Talent Matcher - Slack Bot",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@slack/bolt": "^3.22.0",
+    "dotenv": "^16.4.7",
+    "unpdf": "^1.4.0"
+  }
+}
