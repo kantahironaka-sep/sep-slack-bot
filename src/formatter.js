@@ -46,7 +46,7 @@ function formatMatchResult(result) {
       blocks.push({ type:"section", text:{ type:"mrkdwn", text:"📋 *募集要件:*\n" + m.jd_summary }});
     }
 
-    blocks.push({ type:"section", text:{ type:"mrkdwn", text:"💬 *推薦理由:*\n" + m.recommendation }});
+    blocks.push({ type:"section", text:{ type:"mrkdwn", text:"💰 *年収レンジ:* " + (m.salary_range ? m.salary_range.min + "〜" + m.salary_range.max + "万円　年収フィット: " + (m.salary_fit||"－") + "　" + (m.salary_gap||"") : "算定中") + "\n💬 *推薦理由:*\n" + m.recommendation }});
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:"✅ " + (m.key_reasons||[]).join(" | ") }});
 
     if (m.risk_factors && m.risk_factors.length > 0 && m.risk_factors[0] !== "") {
