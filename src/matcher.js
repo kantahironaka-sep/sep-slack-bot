@@ -82,7 +82,12 @@ async function extractTextFromFile(slackClient, file) {
     const dl = await fetch(url, { headers: { Authorization: "Bearer " + process.env.SLACK_BOT_TOKEN }});
     const buffer = Buffer.from(await dl.arrayBuffer());
 
-    if (file.mimetype && file.mimetype.includes("pdf")) {
+    const fname = (file.name || "").toLowerCase();
+    if (fname.endsWith(".docx") || fname.endsWith(".doc") || (file.mimetype && file.mimetype.includes("word"))) {
+      const result = await mammoth.extractRawText({ buffer });
+      console.log("📄 DOCX抽出成功:", result.value.substring(0, 80) + "...");
+      return result.value.substring(0, 8000);
+    } else if (file.mimetype && file.mimetype.includes("pdf")) {
       const result = await extractText(new Uint8Array(buffer));
       console.log("PDF result type:", typeof result, Object.keys(result));
       const text = typeof result.text === "string" ? result.text : Array.isArray(result.text) ? result.text.join("\n") : JSON.stringify(result);
