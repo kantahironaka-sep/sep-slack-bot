@@ -23,6 +23,12 @@ function isAllowed(userId) {
 function isResumeFile(filename) {
   if (!filename) return false;
   const f = filename.toLowerCase();
+  // docx/pdf以外は無視
+  if (!f.endsWith(".pdf") && !f.endsWith(".docx") && !f.endsWith(".doc")) return false;
+  // 人名っぽいパターン（姓名の組み合わせ、アルファベット2単語以上）
+  const namePattern = /^[a-z]+([-_\s][a-z]+){1,3}\.(pdf|docx|doc)$/i;
+  const jpNamePattern = /^[一-龥ぁ-んァ-ン]{2,6}[\s_\-]?[一-龥ぁ-んァ-ン]{1,4}/;
+  if (namePattern.test(filename) || jpNamePattern.test(filename)) return true;
   return f.includes("cv") || f.includes("職務経歴書") || f.includes("レジュメ") || f.includes("経歴") || f.includes("履歴書") || f.includes("resume");
 }
 

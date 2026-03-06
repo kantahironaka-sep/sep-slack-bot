@@ -25,6 +25,7 @@ const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
 const { Anonymizer } = require("./anonymizer");
 const { extractText } = require("unpdf");
+const mammoth = require("mammoth");
 const client = new Anthropic();
 
 const SYSTEM_PROMPT = `あなたはSweat Equity Partners（SEP）のAIマッチングアシスタントです。
