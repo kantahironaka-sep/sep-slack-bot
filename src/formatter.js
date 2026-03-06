@@ -23,16 +23,17 @@ function formatMatchResult(result) {
   ];
 
   matches.forEach((m, i) => {
-    const c = PORTFOLIO.find(p => p.id === m.company_id);
+    const c = PORTFOLIO.find(p => p.id === m.company_id || p.name === m.company_name);
     const emoji = scoreEmoji(m.match_score);
     const jdStatus = m.has_jd ? "📄 JD確認済" : "⚠️ JD未確認（打診推奨）";
 
-    // 年収情報
+    // 年収レンジ情報（AIレスポンスから取得）
     const salaryRange = m.salary_range;
-    const salaryFitEmoji = m.salary_fit === "◎" ? "◎" : m.salary_fit === "○" ? "○" : m.salary_fit === "△" ? "△" : "×";
+    const salaryFit = m.salary_fit || "－";
+    const salaryGap = m.salary_gap || "";
     const salaryText = salaryRange
-      ? `💰 *年収レンジ:* ${salaryRange.min}〜${salaryRange.max}万円　年収フィット: ${salaryFitEmoji}　${m.salary_gap || ""}${salaryRange.note ? `　_※${salaryRange.note}_` : ""}`
-      : "";
+      ? `💰 *年収レンジ:* ${salaryRange.min}〜${salaryRange.max}万円　年収フィット: ${salaryFit}　${salaryGap}${salaryRange.note ? `　_※${salaryRange.note}_` : ""}`
+      : "💰 *年収レンジ:* 算定中";
 
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:[
       emoji + " *#" + (i+1) + " " + m.company_name + "* — マッチングスコア: *" + m.match_score + "点*",
@@ -46,7 +47,7 @@ function formatMatchResult(result) {
       blocks.push({ type:"section", text:{ type:"mrkdwn", text:"📋 *募集要件:*\n" + m.jd_summary }});
     }
 
-    blocks.push({ type:"section", text:{ type:"mrkdwn", text:"💰 *年収レンジ:* " + (m.salary_range ? m.salary_range.min + "〜" + m.salary_range.max + "万円　年収フィット: " + (m.salary_fit||"－") + "　" + (m.salary_gap||"") : "算定中") + "\n💬 *推薦理由:*\n" + m.recommendation }});
+    blocks.push({ type:"section", text:{ type:"mrkdwn", text:"💬 *推薦理由:*\n" + m.recommendation }});
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:"✅ " + (m.key_reasons||[]).join(" | ") }});
 
     if (m.risk_factors && m.risk_factors.length > 0 && m.risk_factors[0] !== "") {

@@ -1,26 +1,3 @@
-
-const SALARY_TABLE = {
-  "Pre-Seed":     { "CxO/役員": {min:400,max:800}, "事業開発/BizDev": {min:400,max:600}, "営業": {min:350,max:550}, "エンジニア": {min:450,max:700}, "PM/PdM": {min:450,max:650}, "マーケ/PR": {min:350,max:550}, "CS/オペレーション": {min:300,max:500}, "その他": {min:300,max:500} },
-  "Seed":         { "CxO/役員": {min:600,max:1000}, "事業開発/BizDev": {min:500,max:700}, "営業": {min:400,max:650}, "エンジニア": {min:500,max:800}, "PM/PdM": {min:500,max:750}, "マーケ/PR": {min:400,max:650}, "CS/オペレーション": {min:350,max:550}, "その他": {min:350,max:550} },
-  "Series A":     { "CxO/役員": {min:800,max:1500}, "事業開発/BizDev": {min:600,max:900}, "営業": {min:500,max:800}, "エンジニア": {min:600,max:1000}, "PM/PdM": {min:600,max:900}, "マーケ/PR": {min:500,max:800}, "CS/オペレーション": {min:450,max:700}, "その他": {min:450,max:700} },
-  "Series B":     { "CxO/役員": {min:1000,max:2000}, "事業開発/BizDev": {min:700,max:1100}, "営業": {min:550,max:900}, "エンジニア": {min:700,max:1200}, "PM/PdM": {min:700,max:1100}, "マーケ/PR": {min:600,max:950}, "CS/オペレーション": {min:500,max:800}, "その他": {min:500,max:800} },
-  "Growth":       { "CxO/役員": {min:1200,max:2500}, "事業開発/BizDev": {min:700,max:1200}, "営業": {min:600,max:1000}, "エンジニア": {min:700,max:1300}, "PM/PdM": {min:700,max:1200}, "マーケ/PR": {min:600,max:1000}, "CS/オペレーション": {min:500,max:800}, "その他": {min:500,max:900} },
-};
-
-function getSalaryRange(stage, positionCategory) {
-  const s = SALARY_TABLE[stage] || SALARY_TABLE["Seed"];
-  return s[positionCategory] || s["その他"];
-}
-
-function applyManagementMultiplier(salary, managementExp) {
-  if (!managementExp) return salary;
-  const exp = managementExp.toLowerCase();
-  if (exp.includes("vp") || exp.includes("執行役員") || exp.includes("取締役")) return Math.round(salary * 1.8);
-  if (exp.includes("部長") || exp.includes("シニアマネージャー") || exp.includes("senior manager")) return Math.round(salary * 1.5);
-  if (exp.includes("マネージャー") || exp.includes("manager") || exp.includes("リーダー") || exp.includes("leader") || exp.includes("チームリード")) return Math.round(salary * 1.3);
-  return salary;
-}
-
 const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
 const { Anonymizer } = require("./anonymizer");
@@ -54,11 +31,21 @@ position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニ
 - JDが存在する場合は、JDの要件と候補者の経験の対応を明記
 - JDが存在しない場合は「募集要項の詳細は未確認ですが、〇〇の経験から△△として打診する価値があると考えます」と記載
 
+## Step 3: 年収レンジ算定
+各推薦企業について、候補者の推定年収とポジション・ステージを考慮して年収レンジを算定。
+- stageが"Pre-Seed"/"Seed"の場合: 相場の0.7〜0.9倍
+- stageが"Series A"の場合: 相場の0.8〜1.0倍
+- stageが"Growth"の場合: 相場の0.9〜1.1倍
+- salary_fit: 候補者の推定/現年収とレンジの関係（"◎"=レンジ内, "○"=やや差あり±15%, "△"=差あり±30%, "×"=大きな乖離）
+- salary_gap: 差がある場合に説明（例: "現年収より約100万円ダウン"）
+
 【ポートフォリオ企業データ】
 ${JSON.stringify(PORTFOLIO.map(c=>({id:c.id,name:c.name,sector:c.sector,stage:c.stage,teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords})))}
 
 ## 出力フォーマット（厳密にこのJSON形式のみ。前後に何も付けない）
-{"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":""},"matches":[{"company_id":"GV-XXX","company_name":"","position":"推薦ポジション名","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"]}]}`;
+{"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":""}]}
+
+【重要】company_idは必ず上記ポートフォリオデータのidフィールド（例: "GV-003", "GV-006"）を正確に使用してください。"GV-XXX"のようなプレースホルダーは絶対に使わないでください。`;
 
 async function matchTalent(profileText) {
   const anon = new Anonymizer();
@@ -73,6 +60,19 @@ async function matchTalent(profileText) {
   const result = JSON.parse(text.replace(/```json|```/g, "").trim());
   if (result.profile) result.profile.name = anon.getOriginalName() || result.profile.name;
   result._originalName = anon.getOriginalName();
+
+  // company_idでマッチできなかった場合、company_nameでフォールバック
+  if (result.matches) {
+    result.matches.forEach(m => {
+      const byId = PORTFOLIO.find(c => c.id === m.company_id);
+      const byName = !byId ? PORTFOLIO.find(c => c.name === m.company_name) : null;
+      if (!byId && byName) {
+        console.log(`⚠️ company_id "${m.company_id}" not found, resolved by name "${m.company_name}" → ${byName.id}`);
+        m.company_id = byName.id;
+      }
+    });
+  }
+
   return result;
 }
 
