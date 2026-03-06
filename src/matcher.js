@@ -1,3 +1,26 @@
+
+const SALARY_TABLE = {
+  "Pre-Seed":     { "CxO/役員": {min:400,max:800}, "事業開発/BizDev": {min:400,max:600}, "営業": {min:350,max:550}, "エンジニア": {min:450,max:700}, "PM/PdM": {min:450,max:650}, "マーケ/PR": {min:350,max:550}, "CS/オペレーション": {min:300,max:500}, "その他": {min:300,max:500} },
+  "Seed":         { "CxO/役員": {min:600,max:1000}, "事業開発/BizDev": {min:500,max:700}, "営業": {min:400,max:650}, "エンジニア": {min:500,max:800}, "PM/PdM": {min:500,max:750}, "マーケ/PR": {min:400,max:650}, "CS/オペレーション": {min:350,max:550}, "その他": {min:350,max:550} },
+  "Series A":     { "CxO/役員": {min:800,max:1500}, "事業開発/BizDev": {min:600,max:900}, "営業": {min:500,max:800}, "エンジニア": {min:600,max:1000}, "PM/PdM": {min:600,max:900}, "マーケ/PR": {min:500,max:800}, "CS/オペレーション": {min:450,max:700}, "その他": {min:450,max:700} },
+  "Series B":     { "CxO/役員": {min:1000,max:2000}, "事業開発/BizDev": {min:700,max:1100}, "営業": {min:550,max:900}, "エンジニア": {min:700,max:1200}, "PM/PdM": {min:700,max:1100}, "マーケ/PR": {min:600,max:950}, "CS/オペレーション": {min:500,max:800}, "その他": {min:500,max:800} },
+  "Growth":       { "CxO/役員": {min:1200,max:2500}, "事業開発/BizDev": {min:700,max:1200}, "営業": {min:600,max:1000}, "エンジニア": {min:700,max:1300}, "PM/PdM": {min:700,max:1200}, "マーケ/PR": {min:600,max:1000}, "CS/オペレーション": {min:500,max:800}, "その他": {min:500,max:900} },
+};
+
+function getSalaryRange(stage, positionCategory) {
+  const s = SALARY_TABLE[stage] || SALARY_TABLE["Seed"];
+  return s[positionCategory] || s["その他"];
+}
+
+function applyManagementMultiplier(salary, managementExp) {
+  if (!managementExp) return salary;
+  const exp = managementExp.toLowerCase();
+  if (exp.includes("vp") || exp.includes("執行役員") || exp.includes("取締役")) return Math.round(salary * 1.8);
+  if (exp.includes("部長") || exp.includes("シニアマネージャー") || exp.includes("senior manager")) return Math.round(salary * 1.5);
+  if (exp.includes("マネージャー") || exp.includes("manager") || exp.includes("リーダー") || exp.includes("leader") || exp.includes("チームリード")) return Math.round(salary * 1.3);
+  return salary;
+}
+
 const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
 const { Anonymizer } = require("./anonymizer");
