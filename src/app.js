@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { App } = require("@slack/bolt");
 const { matchTalent, extractTextFromFile, getPortfolioByFilter } = require("./matcher");
+const { findJobUrls } = require("./job-finder");
 const { formatMatchResult, formatPortfolioList, formatError, formatLoading } = require("./formatter");
 
 const ALLOWED_USERS = (process.env.ALLOWED_USERS || "").split(",").map(s => s.trim()).filter(Boolean);
@@ -69,8 +70,9 @@ app.command("/match", async ({ command, ack, client }) => {
   const lm = await client.chat.postMessage({ channel:dm.channel.id, blocks:formatLoading(), text:"マッチング中..." });
   try {
     const result = await matchTalent(text);
-    await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatMatchResult(result), text:"マッチング結果" });
-    if (RESULT_CHANNEL) await postToResultChannel(client, result, command.user_id, "コマンド");
+    const jobLinks = await findJobUrls(result.matches || []);
+    await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatMatchResult(result, jobLinks), text:"マッチング結果" });
+    if (RESULT_CHANNEL) await postToResultChannel(client, result, jobLinks, command.user_id, "コマンド");
   } catch(e) { console.error(e); await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatError(e), text:"エラー" }); }
 });
 
@@ -100,8 +102,9 @@ app.event("message", async ({ event, client }) => {
     const lm = await client.chat.postMessage({ channel:event.channel, blocks:formatLoading(), text:"マッチング中..." });
     try {
       const result = await matchTalent(text);
-      await client.chat.update({ channel:event.channel, ts:lm.ts, blocks:formatMatchResult(result), text:"マッチング結果" });
-      if (RESULT_CHANNEL) await postToResultChannel(client, result, event.user, "DM");
+      const jobLinks = await findJobUrls(result.matches || []);
+      await client.chat.update({ channel:event.channel, ts:lm.ts, blocks:formatMatchResult(result, jobLinks), text:"マッチング結果" });
+      if (RESULT_CHANNEL) await postToResultChannel(client, result, jobLinks, event.user, "DM");
     } catch(e) { console.error(e); await client.chat.update({ channel:event.channel, ts:lm.ts, blocks:formatError(e), text:"エラー" }); }
     return;
   }
@@ -152,6 +155,7 @@ app.event("message", async ({ event, client }) => {
         senderName = userInfo.user?.real_name || userInfo.user?.name || event.user;
       } catch(e) {}
 
+      const jobLinks = await findJobUrls(result.matches || []);
       await client.chat.postMessage({
         channel: RESULT_CHANNEL,
         blocks: [
@@ -165,7 +169,7 @@ app.event("message", async ({ event, client }) => {
             "\n━━━━━━━━━━━━━━━━"
           }},
           { type:"divider" },
-          ...formatMatchResult(result),
+          ...formatMatchResult(result, jobLinks),
         ],
         text: "新規レジュメ: " + (result.profile?.name || "候補者X"),
       });
@@ -192,12 +196,13 @@ app.event("app_mention", async ({ event, client }) => {
   const lm = await client.chat.postMessage({ channel:dm.channel.id, blocks:formatLoading(), text:"マッチング中..." });
   try {
     const result = await matchTalent(text);
-    await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatMatchResult(result), text:"マッチング結果" });
-    if (RESULT_CHANNEL) await postToResultChannel(client, result, event.user, "メンション");
+    const jobLinks = await findJobUrls(result.matches || []);
+    await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatMatchResult(result, jobLinks), text:"マッチング結果" });
+    if (RESULT_CHANNEL) await postToResultChannel(client, result, jobLinks, event.user, "メンション");
   } catch(e) { console.error(e); await client.chat.update({ channel:dm.channel.id, ts:lm.ts, blocks:formatError(e), text:"エラー" }); }
 });
 
-async function postToResultChannel(client, result, userId, source) {
+async function postToResultChannel(client, result, jobLinks, userId, source) {
   try {
     const userInfo = await client.users.info({ user:userId });
     const userName = userInfo.user?.real_name || userId;
@@ -206,7 +211,7 @@ async function postToResultChannel(client, result, userId, source) {
       blocks: [
         { type:"section", text:{ type:"mrkdwn", text:"📋 *マッチング実行* by " + userName + " (" + source + ")" }},
         { type:"divider" },
-        ...formatMatchResult(result),
+        ...formatMatchResult(result, jobLinks),
       ],
       text: "マッチング結果: " + (result.profile?.name || "候補者X"),
     });
