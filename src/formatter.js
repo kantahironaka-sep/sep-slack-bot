@@ -74,4 +74,4 @@ function formatPortfolioList(companies) {
 function formatError(e) { return [{ type:"section", text:{ type:"mrkdwn", text:"⚠️ *エラー:* " + (e.message||e) + "\nもう一度お試しください。" }}]; }
 function formatLoading() { return [{ type:"section", text:{ type:"mrkdwn", text:"⏳ *プロフィールを分析中...*\n_20〜30秒お待ちください_" }}]; }
 
-module.exports = { formatMatchResu
+module.exports = { formatMatchResult, formatPortfolioList, formatError, formatLoading };
