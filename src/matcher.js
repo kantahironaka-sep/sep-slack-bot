@@ -82,7 +82,13 @@ SEPは、成長志向のスタートアップCEOに対してCxO人材紹介・Bi
 name, current_role, career_summary, domain_expertise[], skills[], management_exp, strengths[], career_aspiration,
 estimated_age（レジュメから推定。不明なら"不明"）,
 current_salary（レジュメに明記があれば数値で万円単位の整数、なければnull）,
-estimated_salary（職歴・役職・年齢から推定した年収を万円単位の整数で。フェルミ推定で算出。current_salaryがある場合はその値を使う）,
+estimated_salary（職歴・役職・年齢から推定した年収を万円単位の整数で。以下の補正を必ず適用すること：
+・外資系グローバル企業（Deel, Zoom, IBM, VMware, Salesforce, Google, Amazon, Microsoft, Oracle等）在籍・在籍歴あり → ベース推定値 × 1.8〜2.5
+・外資系Mid-size SaaS（HubSpot, Slack, Twilio等）→ × 1.5〜1.8
+・日系大手（リクルート, NTT, 野村, 三菱等）→ × 1.2〜1.5
+・国内スタートアップ → × 1.0
+・シニアIC/マネージャー職で外資系なら更に上振れさせる
+current_salaryがある場合はその値を優先して使う）,
 position_category（以下から1つ選ぶ: "CxO/役員", "事業開発/BizDev", "営業", "エンジニア", "PM/PdM", "マーケ/PR", "CS/オペレーション", "その他"）
 
 ## Step 2: マッチング推薦（TOP3）
