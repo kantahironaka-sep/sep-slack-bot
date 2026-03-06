@@ -25,10 +25,13 @@ function isResumeFile(filename) {
   const f = filename.toLowerCase();
   // docx/pdf以外は無視
   if (!f.endsWith(".pdf") && !f.endsWith(".docx") && !f.endsWith(".doc")) return false;
+  // pdf/docxなら基本的に全部通す（ファイル名の判定は緩く）
   // 人名っぽいパターン（姓名の組み合わせ、アルファベット2単語以上）
   const namePattern = /^[a-z]+([-_\s][a-z]+){1,3}\.(pdf|docx|doc)$/i;
   const jpNamePattern = /^[一-龥ぁ-んァ-ン]{2,6}[\s_\-]?[一-龥ぁ-んァ-ン]{1,4}/;
   if (namePattern.test(filename) || jpNamePattern.test(filename)) return true;
+  // docx/docは基本的にレジュメとして扱う
+  if (f.endsWith(".docx") || f.endsWith(".doc")) return true;
   return f.includes("cv") || f.includes("職務経歴書") || f.includes("レジュメ") || f.includes("経歴") || f.includes("履歴書") || f.includes("resume");
 }
 
