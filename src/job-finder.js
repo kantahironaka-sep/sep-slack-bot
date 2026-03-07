@@ -9,6 +9,31 @@ function shouldSkip(url) {
   catch { return true; }
 }
 
+// 求人キャッシュから直接リンクを探す
+let JOB_CACHE = {};
+try { JOB_CACHE = require("./job-cache.json"); } catch { console.log("job-cache not found"); }
+
+function findFromCache(companyId, position) {
+  const cached = JOB_CACHE[companyId];
+  if (!cached || !cached.jobs || cached.jobs.length === 0) return null;
+  const kws = normalizePosition(position);
+  let best = null, bestScore = 0;
+  for (const job of cached.jobs) {
+    const title = job.title.toLowerCase();
+    const score = kws.filter(k => title.includes(k)).length;
+    if (score > bestScore) { bestScore = score; best = job; }
+  }
+  if (best && bestScore >= 1) {
+    console.log("\u2705 [cache] " + companyId + ": \"" + best.title + "\" (score:" + bestScore + ")");
+    return { type: "direct", url: best.url, text: best.title };
+  }
+  if (cached.jobs.length > 0) {
+    console.log("\u2139\ufe0f [cache] " + companyId + ": no position match, returning first job");
+    return null;
+  }
+  return null;
+}
+
 function buildSearchUrl(name, recruitUrl) {
   const isWantedly = (recruitUrl || "").includes("wantedly.com");
   const q = isWantedly
@@ -21,7 +46,12 @@ function normalizePosition(position) {
   return position.replace(/[・/／\s]/g, " ").split(" ").filter(w => w.length >= 2).map(w => w.toLowerCase());
 }
 
-async function findJobUrl(recruitUrl, companyName, position) {
+async function findJobUrl(recruitUrl, companyName, position, companyId) {
+  // まずキャッシュから探す
+  if (companyId) {
+    const cached = findFromCache(companyId, position);
+    if (cached) return cached;
+  }
   if (!recruitUrl || shouldSkip(recruitUrl)) {
     return { type: "search", url: buildSearchUrl(companyName, recruitUrl) };
   }
@@ -65,7 +95,7 @@ async function findJobUrls(matches) {
   return Promise.all(matches.map(async m => {
     const c = PORTFOLIO.find(p => p.id === m.company_id || p.name === m.company_name);
     if (!c) return { companyId: m.company_id, type: "search", url: buildSearchUrl(m.company_name, "") };
-    const r = await findJobUrl(c.recruitUrl, c.name, m.position);
+    const r = await findJobUrl(c.recruitUrl, c.name, m.position, c.id);
     return { companyId: m.company_id, ...r };
   }));
 }
