@@ -9,7 +9,7 @@ function shouldSkip(url) {
   catch { return true; }
 }
 
-function buildGoogleSearchUrl(name, position, recruitUrl) {
+function buildSearchUrl(name, recruitUrl) {
   const isWantedly = (recruitUrl || "").includes("wantedly.com");
   const q = isWantedly
     ? `site:wantedly.com ${name} 募集`
@@ -23,7 +23,7 @@ function normalizePosition(position) {
 
 async function findJobUrl(recruitUrl, companyName, position) {
   if (!recruitUrl || shouldSkip(recruitUrl)) {
-    return { type: "search", url: buildGoogleSearchUrl(companyName, position, recruitUrl) };
+    return { type: "search", url: buildSearchUrl(companyName, recruitUrl) };
   }
   try {
     const ctrl = new AbortController();
@@ -54,17 +54,17 @@ async function findJobUrl(recruitUrl, companyName, position) {
       return { type: "direct", url: best.url };
     }
     console.log(`🔍 [${companyName}] リンク見つからず → Google検索`);
-    return { type: "search", url: buildGoogleSearchUrl(companyName, position, recruitUrl) };
+    return { type: "search", url: buildSearchUrl(companyName, recruitUrl) };
   } catch (e) {
     console.log(`⚠️ [${companyName}] fetch失敗 (${e.message}) → Google検索`);
-    return { type: "search", url: buildGoogleSearchUrl(companyName, position, recruitUrl) };
+    return { type: "search", url: buildSearchUrl(companyName, recruitUrl) };
   }
 }
 
 async function findJobUrls(matches) {
   return Promise.all(matches.map(async m => {
     const c = PORTFOLIO.find(p => p.id === m.company_id || p.name === m.company_name);
-    if (!c) return { companyId: m.company_id, type: "search", url: buildGoogleSearchUrl(m.company_name, m.position, "") };
+    if (!c) return { companyId: m.company_id, type: "search", url: buildSearchUrl(m.company_name, "") };
     const r = await findJobUrl(c.recruitUrl, c.name, m.position);
     return { companyId: m.company_id, ...r };
   }));
