@@ -5,6 +5,10 @@ const { extractText } = require("unpdf");
 const mammoth = require("mammoth");
 const client = new Anthropic();
 
+// 求人キャッシュ読み込み
+let JOB_CACHE = {};
+try { JOB_CACHE = require("./job-cache.json"); } catch { console.log("⚠️ job-cache.json not found. Run: npm run fetch-jobs"); }
+
 const SYSTEM_PROMPT = `あなたはSweat Equity Partners（SEP）のAIマッチングアシスタントです。
 SEPは、成長志向のスタートアップCEOに対してCxO人材紹介・BizDev支援を行うヘッドハンター集団です。
 
@@ -53,6 +57,8 @@ position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニ
 以下のポートフォリオ企業データと照合し、マッチ度の高い上位5社を推薦。
 
 【重要な判断基準】
+- openPositionsが存在する企業は、実際に募集中のポジションとマッチングすること（has_jdをtrueにし、jd_summaryにポジション名を記載）
+- openPositionsがnullの企業は、hiringNeedsを参考に推薦（has_jdはfalse）
 - 候補者の経験・スキルと企業の採用ニーズの具体的な重なり
 - 候補者の志向性と企業のステージ・課題のフィット
 - 候補者のマネジメント経験と企業の組織規模の整合性
@@ -85,7 +91,7 @@ TOP5の推薦のうち：
 - salary_gap: 差がある場合に説明（例: "現年収より約100万円ダウン"）
 
 【ポートフォリオ企業データ】
-${JSON.stringify(PORTFOLIO.map(c=>({id:c.id,name:c.name,sector:c.sector,stage:c.stage,teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords})))}
+${JSON.stringify(PORTFOLIO.map(c=>{const jc=JOB_CACHE[c.id];return{id:c.id,name:c.name,sector:c.sector,stage:c.stage,teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords,openPositions:jc&&jc.jobs.length>0?jc.jobs.map(j=>j.title):null,jobDataLevel:jc?jc.level:"C"}}))}
 
 ## 出力フォーマット（厳密にこのJSON形式のみ。前後に何も付けない）
 {"screening":{"early_stage_resilience":{"score":"★★☆","detail":"設立X年目に入社。当時約Y名→Z名まで経験"},"adversity_signal":{"score":"★★☆","detail":""},"career_breakthrough":{"score":"★★☆","detail":""},"concern_flags":["懸念点があれば記載"],"headhunter_summary":"SEPヘッドハンターとしての総評2〜3文"},"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_type":"current","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":""}]}
