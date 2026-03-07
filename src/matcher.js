@@ -10,6 +10,37 @@ SEPは、成長志向のスタートアップCEOに対してCxO人材紹介・Bi
 
 候補者プロフィールを受け取り、以下を実行してください。
 
+## Step 0: キャリアスクリーニング（人物の本質を読み解く）
+レジュメの「行間」を読み、以下の観点からキャリアを深く分析してください。
+推測ではなく、職歴の具体的事実をエビデンスとして引用すること。
+
+### 0-1. アーリーステージ耐性
+- 各在籍企業について、入社時期とその企業の設立年（既知情報から推定）の差分を計算
+- 設立3年以内に入社 → 強いアーリーシグナル。カオスな環境で一気通貫の業務経験がある可能性大
+- 設立5年以上経過後・大型調達直後に入社 → グロースフェーズ入社。悪くはないがアーリー耐性は別途判断
+- 「何人規模の時に入って、何人規模まで経験したか」を推定して記載
+
+### 0-2. 逆境残留シグナル
+- 在籍企業が組織崩壊・業績悪化・大量離職等を経験した時期に、あえて残っていたかどうか
+- 特に役職が上の状態で残っていた場合、「逃げない」という非常に強いシグナル
+- 該当する場合は具体的にどの企業のどの時期かを明記。該当しない場合は「該当なし」
+
+### 0-3. キャリアの突き抜け度
+- 年齢に対して異常に早い昇進（20代マネージャー、30代前半で役員等）
+- 異業種・異職種の珍しい組み合わせから生まれる独自の強み
+- 転職に一貫した軸やテーマがあるか
+- 経歴の中に「普通じゃない」意思決定や実績があるか
+
+### 0-4. 懸念シグナル
+- 35〜40歳まで1社のみ在籍で転職経験なし → 変化への適応力が未知数
+- 短期離職の繰り返し（1年未満×3社以上）→ 定着リスク
+- 役職名は立派だが具体的な実績・数値が見えない → 要深堀り
+- その他気になる点があれば記載。なければ「特になし」
+
+### 0-5. SEPヘッドハンター総評
+上記を踏まえ、プロのヘッドハンターとして2〜3文で総合コメント。
+「この人物のキャリアで最も注目すべきポイント」と「スタートアップCEOに最初に伝えたい一言」を含めること。
+
 ## Step 1: プロフィール構造化
 name, current_role, career_summary, domain_expertise[], skills[], management_exp, strengths[], career_aspiration,
 estimated_age（レジュメから推定。不明なら"不明"）,
@@ -26,10 +57,23 @@ position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニ
 - 候補者のマネジメント経験と企業の組織規模の整合性
 - 業界・ドメイン知識の関連性
 
-【推薦文の書き方】
-- なぜこの企業のこのポジションにフィットするのか、候補者の具体的な経験を引用して説明
+【推薦文の書き方 — SEPの目利き基準】
+- 候補者の役職名ではなく「実際にやっていた中身」と企業フェーズで必要な中身を突合すること
 - JDが存在する場合は、JDの要件と候補者の経験の対応を明記
 - JDが存在しない場合は「募集要項の詳細は未確認ですが、〇〇の経験から△△として打診する価値があると考えます」と記載
+
+【マッチングの2つの視点 — 両方必ず含めること】
+TOP5の推薦のうち：
+- 3〜4社は「現在フィット」: 今のフェーズ・今の採用ニーズに合う推薦。match_typeを"current"にする
+- 1〜2社は「先読みフィット」: 今すぐではないが半年〜1年後に必要になるスキルを持っている推薦。match_typeを"future"にし、recommendationの冒頭に「【先読み推薦】今すぐのニーズではありませんが、」と明記する
+
+【フェーズ別・役職の実態定義（推薦時に参照）】
+同じ役職名でもフェーズで求められるスキルが全く異なる。推薦時に企業のstageを見て適切に判断すること：
+- COO（Seed〜初期）: 売上を立てる力・ビジネスを作る力が最重要。組織力よりも事業推進力
+- COO（Series B以降）: マネジメント能力・ステークホルダーマネジメント・組織運営が中心
+- CFO（初期）: 経理財務・コーポレートバックオフィスの構築。手を動かせる実務力
+- CFO（後半〜IPO準備）: 機関投資家とのコミュニケーション・時価総額の議論・IR戦略
+- CxO全般: 役職が上がるほど各社で解釈の幅が広がる。「この企業のこのフェーズでのCxOとは具体的に何をする人か」を定義した上で推薦すること
 
 ## Step 3: 年収レンジ算定
 各推薦企業について、候補者の推定年収とポジション・ステージを考慮して年収レンジを算定。
@@ -43,7 +87,7 @@ position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニ
 ${JSON.stringify(PORTFOLIO.map(c=>({id:c.id,name:c.name,sector:c.sector,stage:c.stage,teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords})))}
 
 ## 出力フォーマット（厳密にこのJSON形式のみ。前後に何も付けない）
-{"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":""}]}
+{"screening":{"early_stage_resilience":{"score":"★★☆","detail":"設立X年目に入社。当時約Y名→Z名まで経験"},"adversity_signal":{"score":"★★☆","detail":""},"career_breakthrough":{"score":"★★☆","detail":""},"concern_flags":["懸念点があれば記載"],"headhunter_summary":"SEPヘッドハンターとしての総評2〜3文"},"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_type":"current","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":""}]}
 
 【重要】company_idは必ず上記ポートフォリオデータのidフィールド（例: "GV-003", "GV-006"）を正確に使用してください。"GV-XXX"のようなプレースホルダーは絶対に使わないでください。`;
 

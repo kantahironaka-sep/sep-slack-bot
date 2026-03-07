@@ -16,7 +16,37 @@ function formatMatchResult(result) {
     ? `💴 *現年収:* ${profile.current_salary}万円（明記）`
     : `💴 *推定年収:* ${profile.estimated_salary}万円（フェルミ推定）`;
 
+  // スクリーニングセクション
+  const sc = result.screening;
+  const screeningBlocks = [];
+  if (sc) {
+    const esr = sc.early_stage_resilience || {};
+    const adv = sc.adversity_signal || {};
+    const brk = sc.career_breakthrough || {};
+    const flags = sc.concern_flags || [];
+    const summary = sc.headhunter_summary || "";
+
+    screeningBlocks.push(
+      { type:"header", text:{ type:"plain_text", text:"🔍 人物スクリーニング：" + (profile.name||"候補者"), emoji:true }},
+      { type:"section", text:{ type:"mrkdwn", text:
+        "🏕️ *アーリーステージ耐性:* " + (esr.score||"－") + "\n" + (esr.detail||"") }},
+      { type:"section", text:{ type:"mrkdwn", text:
+        "🛡️ *逆境残留シグナル:* " + (adv.score||"－") + "\n" + (adv.detail||"") }},
+      { type:"section", text:{ type:"mrkdwn", text:
+        "⚡ *キャリアの突き抜け度:* " + (brk.score||"－") + "\n" + (brk.detail||"") }},
+    );
+    if (flags.length > 0 && flags[0] !== "" && flags[0] !== "特になし") {
+      screeningBlocks.push({ type:"section", text:{ type:"mrkdwn", text:
+        "⚠️ *懸念シグナル:* " + flags.join(" | ") }});
+    }
+    screeningBlocks.push(
+      { type:"section", text:{ type:"mrkdwn", text: "💬 *SEPヘッドハンター総評:*\n" + summary }},
+      { type:"divider" },
+    );
+  }
+
   const blocks = [
+    ...screeningBlocks,
     { type:"header", text:{ type:"plain_text", text:"🎯 マッチング結果：" + (profile.name||"候補者"), emoji:true }},
     { type:"section", text:{ type:"mrkdwn", text:[
       "*現職:* " + (profile.current_role||"N/A"),
@@ -43,7 +73,7 @@ function formatMatchResult(result) {
       : "💰 *年収レンジ:* 算定中";
 
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:[
-      emoji + " *#" + (i+1) + " " + m.company_name + "* — マッチングスコア: *" + m.match_score + "点*",
+      emoji + " *#" + (i+1) + " " + m.company_name + "* — " + (m.match_type === "future" ? "🔮 先読み推薦" : "📍 現在フィット") + " *" + m.match_score + "点*",
       "📌 *推薦ポジション:* " + m.position,
       (c ? c.sector + " | " + c.stage + " | " + c.teamSize : ""),
       jdStatus,
