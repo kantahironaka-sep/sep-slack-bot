@@ -1,3 +1,5 @@
+function cleanJobTitle(t) { let c = t.replace(/^[0-9]+(\.[0-9]+)*_[^_]+_/, "").replace(/^[0-9]+(\.[0-9]+)*_/, "").trim(); return c.length > 0 ? c : t.trim(); }
+
 const cheerio = require("cheerio");
 const fs = require("fs");
 const path = require("path");
@@ -26,9 +28,11 @@ async function fetchHerpJobs(slug) {
     const href = $(el).attr("href") || "";
     const text = $(el).text().trim();
     if (href.includes("/v1/" + slug + "/") && text.length > 3 && text.length < 200) {
+      if (href.includes("/requisition-groups/")) return;
+      if (/\d+件$/.test(text.trim())) return;
       const fullUrl = href.startsWith("http") ? href : "https://herp.careers" + href;
       if (!jobs.find(j => j.url === fullUrl)) {
-        jobs.push({ title: text, url: fullUrl });
+        jobs.push({ title: cleanJobTitle(text), url: fullUrl });
       }
     }
   });
@@ -46,7 +50,7 @@ async function fetchWantedlyJobs(url) {
       if (href.includes("/projects/") && text.length > 5 && text.length < 200) {
         const fullUrl = href.startsWith("http") ? href : "https://www.wantedly.com" + href;
         if (!jobs.find(j => j.url === fullUrl)) {
-          jobs.push({ title: text, url: fullUrl });
+          jobs.push({ title: cleanJobTitle(text), url: fullUrl });
         }
       }
     });

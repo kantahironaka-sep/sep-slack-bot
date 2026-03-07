@@ -46,15 +46,39 @@ SEPは、成長志向のスタートアップCEOに対してCxO人材紹介・Bi
 上記を踏まえ、プロのヘッドハンターとして2〜3文で総合コメント。
 「この人物のキャリアで最も注目すべきポイント」と「スタートアップCEOに最初に伝えたい一言」を含めること。
 
+
+## Step 0.6: ターゲット市場適性分析
+候補者の経歴から、最も活躍できる市場タイプを判定してください。
+これはマッチング精度に直結する最重要ステップです。
+
+### 判定基準
+**B2C適性シグナル:** D2C/EC/消費財メーカー勤務、インフルエンサーマーケ/SNSマーケ/コミュニティ運営経験、コンシューマーアプリのグロース経験、広告代理店でのコンシューマー案件、PR/ブランディング中心のマーケ、toCサービスのPdM/PM
+**B2B適性シグナル:** SaaS企業/法人営業/エンタープライズセールス、リード獲得→商談→クロージングの法人営業プロセス、ABM経験、カスタマーサクセス/オンボーディング、バーティカルSaaS経験、SIer/コンサル出身
+**エンタープライズ vs SMB:** 大手企業(1000人以上)への営業・導入→エンタープライズ、中小向け大量アプローチ→SMB
+
+### 出力（profileに含める）:
+- primary_market: "B2B" or "B2C" or "B2B2C"
+- secondary_market: "B2B" or "B2C" or null
+- market_evidence: 判定根拠1-2文
+- segment_fit: "Enterprise" or "SMB" or "Both"
+- segment_evidence: 判定根拠1文
+
 ## Step 1: プロフィール構造化
 name, current_role, career_summary, domain_expertise[], skills[], management_exp, strengths[], career_aspiration,
 estimated_age（レジュメから推定。不明なら"不明"）,
 current_salary（レジュメに明記があれば数値で万円単位の整数、なければnull）,
 estimated_salary（職歴・役職・年齢から推定した年収を万円単位の整数で。外資系グローバル企業在籍歴ありなら2倍以上に補正。さらに役職レベルでも補正すること：VP/執行役員以上→x1.8〜2.0、シニアマネージャー/部長（10名以上）→x1.5、リーダー/マネージャー（3〜10名）→x1.3、個人プレイヤー→x1.0。複数該当する場合は掛け合わせて計算。current_salaryがある場合はその値を使う）,
 position_category（"CxO/役員", "事業開発/BizDev", "営業", "エンジニア", "PM/PdM", "マーケ/PR", "CS/オペレーション", "その他"から1つ）
+primary_market, secondary_market, market_evidence, segment_fit, segment_evidence
 
 ## Step 2: マッチング推薦（TOP5）
 以下のポートフォリオ企業データと照合し、マッチ度の高い上位5社を推薦。
+
+【最重要：ターゲット市場の整合性チェック】
+1. 候補者のprimary_marketと企業のtarget_marketが一致するか確認
+2. 一致→加点(+10), 部分一致(B2B2C企業にB2B/B2C人材)→中立, 不一致→大幅減点(-20)
+3. 不一致でTOP5に入れる場合は最大2社まで。理由を必ず明記
+4. 残り3社以上はtarget_market一致企業から選ぶこと
 
 【重要な判断基準】
 - openPositionsが存在する企業は、実際に募集中のポジションとマッチングすること（has_jdをtrueにし、jd_summaryにポジション名を記載）
@@ -91,10 +115,10 @@ TOP5の推薦のうち：
 - salary_gap: 差がある場合に説明（例: "現年収より約100万円ダウン"）
 
 【ポートフォリオ企業データ】
-${JSON.stringify(PORTFOLIO.map(c=>{const jc=JOB_CACHE[c.id];return{id:c.id,name:c.name,sector:c.sector,stage:c.stage,teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords,openPositions:jc&&jc.jobs.length>0?jc.jobs.map(j=>j.title):null,jobDataLevel:jc?jc.level:"C"}}))}
+${JSON.stringify(PORTFOLIO.map(c=>{const jc=JOB_CACHE[c.id];return{id:c.id,name:c.name,sector:c.sector,stage:c.stage,target_market:c.target_market||"unknown",target_segment:c.target_segment||"unknown",teamSize:c.teamSize,summary:c.summary,hiringNeeds:c.hiringNeeds,growthChallenges:c.growthChallenges,keywords:c.keywords,openPositions:jc&&jc.jobs.length>0?jc.jobs.map(j=>j.title):null,jobDataLevel:jc?jc.level:"C"}}))}
 
 ## 出力フォーマット（厳密にこのJSON形式のみ。前後に何も付けない）
-{"screening":{"early_stage_resilience":{"score":"★★☆","detail":"設立X年目に入社。当時約Y名→Z名まで経験"},"adversity_signal":{"score":"★★☆","detail":""},"career_breakthrough":{"score":"★★☆","detail":""},"concern_flags":["懸念点があれば記載"],"headhunter_summary":"SEPヘッドハンターとしての総評2〜3文"},"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_type":"current","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":""}]}
+{"screening":{"early_stage_resilience":{"score":"★★☆","detail":"設立X年目に入社。当時約Y名→Z名まで経験"},"adversity_signal":{"score":"★★☆","detail":""},"career_breakthrough":{"score":"★★☆","detail":""},"concern_flags":["懸念点があれば記載"],"headhunter_summary":"SEPヘッドハンターとしての総評2〜3文"},"profile":{"name":"","current_role":"","career_summary":"","domain_expertise":[],"skills":[],"management_exp":"","strengths":[],"career_aspiration":"","estimated_age":"","current_salary":null,"estimated_salary":800,"position_category":"","primary_market":"","secondary_market":null,"market_evidence":"","segment_fit":"","segment_evidence":""},"matches":[{"company_id":"GV-003","company_name":"助太刀","position":"推薦ポジション名","match_type":"current","match_score":85,"has_jd":false,"jd_summary":"","recommendation":"なぜフィットするか詳しく説明","key_reasons":["理由1","理由2","理由3"],"risk_factors":["懸念点"],"salary_range":{"min":600,"max":900,"note":""},"salary_fit":"◎","salary_gap":"","market_fit":""}]}
 
 【重要】company_idは必ず上記ポートフォリオデータのidフィールド（例: "GV-003", "GV-006"）を正確に使用してください。"GV-XXX"のようなプレースホルダーは絶対に使わないでください。`;
 

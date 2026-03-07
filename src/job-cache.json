@@ -2,84 +2,84 @@
   "GV-003": {
     "jobs": [
       {
-        "title": "コーポレート2件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/37c670fa-f480-402d-851a-57d0fb75c0d8"
-      },
-      {
-        "title": "セールス11件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/434a1f96-62f0-4256-aae1-f4e7de884c07"
-      },
-      {
-        "title": "デザイナー2件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/98a7357a-c9b8-406c-b95a-085554bac464"
-      },
-      {
-        "title": "企画系5件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/b747bc2e-99cb-4460-97b5-e8d52a8b5ff7"
-      },
-      {
-        "title": "大阪6件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/55634902-ac38-4c39-81ea-53e662eb9492"
-      },
-      {
-        "title": "開発（エンジニア）1件",
-        "url": "https://herp.careers/v1/sukedachi/requisition-groups/dd448cbe-1c5c-4efa-ba68-f5b4a460270a"
-      },
-      {
-        "title": "0.00_東京本社_オープンポジション",
+        "title": "オープンポジション",
         "url": "https://herp.careers/v1/sukedachi/usnHg-inhmWT"
       },
       {
-        "title": "0.00_東京本社_カジュアル面談",
+        "title": "カジュアル面談",
         "url": "https://herp.careers/v1/sukedachi/4cbpdO8lC19Q"
       },
       {
-        "title": "1.00_東京本社_ビジネスオープンポジション",
+        "title": "ビジネスオープンポジション",
         "url": "https://herp.careers/v1/sukedachi/aA00wYYRaoIO"
       },
       {
-        "title": "1.01_東京本社_マーケティング",
+        "title": "マーケティング",
         "url": "https://herp.careers/v1/sukedachi/CUnGGujaJmvb"
       },
       {
-        "title": "1.03_東京本社_フィールドセールス",
+        "title": "フィールドセールス",
         "url": "https://herp.careers/v1/sukedachi/fyeePMjdHSQY"
       },
       {
-        "title": "1.03.00_東京本社_フィールドセールス_リーダー候補",
+        "title": "フィールドセールス_リーダー候補",
         "url": "https://herp.careers/v1/sukedachi/Me1YGKSHB50G"
       },
       {
-        "title": "1.04.01_東京本社_アライアンスセールス（営業経験者向け）",
+        "title": "アライアンスセールス（営業経験者向け）",
         "url": "https://herp.careers/v1/sukedachi/p1jj8gOHfTBh"
       },
       {
-        "title": "1.06_東京本社_カスタマーサクセス",
+        "title": "カスタマーサクセス",
         "url": "https://herp.careers/v1/sukedachi/WU_oLbWCM7Bc"
       },
       {
-        "title": "1.08_東京本社_PdM：プロダクトマネージャー",
+        "title": "PdM：プロダクトマネージャー",
         "url": "https://herp.careers/v1/sukedachi/S3IhQde1Zav1"
       },
       {
-        "title": "1.09_東京本社_セールスマネージャー候補",
+        "title": "セールスマネージャー候補",
         "url": "https://herp.careers/v1/sukedachi/8qO01leM6Is2"
       },
       {
-        "title": "1.12_東京本社_アカウントマネージャー（深耕営業）",
+        "title": "アカウントマネージャー（深耕営業）",
         "url": "https://herp.careers/v1/sukedachi/9C-3pwI7hB6Q"
       },
       {
-        "title": "1.12_東京本社_エンタープライズセールス（新規開拓）",
+        "title": "エンタープライズセールス（新規開拓）",
         "url": "https://herp.careers/v1/sukedachi/yvUfm6eIIGkH"
       },
       {
-        "title": "1.13_東京本社_インサイドセールス",
+        "title": "インサイドセールス",
         "url": "https://herp.careers/v1/sukedachi/pMf1ATT01ojz"
       },
       {
-        "title": "1.5_東京本社_Biz-Ops",
+        "title": "Biz-Ops",
         "url": "https://herp.careers/v1/sukedachi/GfxEvblA4pkd"
+      },
+      {
+        "title": "CS-Ops",
+        "url": "https://herp.careers/v1/sukedachi/k5NfVGTm_IX6"
+      },
+      {
+        "title": "Sales-Ops",
+        "url": "https://herp.careers/v1/sukedachi/z5YHaD9zzhCe"
+      },
+      {
+        "title": "フロントエンドエンジニア",
+        "url": "https://herp.careers/v1/sukedachi/7306vI4hDvN9"
+      },
+      {
+        "title": "デザイナー",
+        "url": "https://herp.careers/v1/sukedachi/QFs0EWJNezrn"
+      },
+      {
+        "title": "コミュニケーションデザイナー",
+        "url": "https://herp.careers/v1/sukedachi/RruP5s4IUAfY"
+      },
+      {
+        "title": "社内情報セキュリティ担当者",
+        "url": "https://herp.careers/v1/sukedachi/axkBTpQ3CbyY"
       }
     ],
     "level": "A",
@@ -94,10 +94,6 @@
   },
   "GV-005": {
     "jobs": [
-      {
-        "title": "02.Lab（新領域開発室）5件",
-        "url": "https://herp.careers/v1/baseconnect/requisition-groups/8610872b-502c-45ee-8381-ba373bdf9a88"
-      },
       {
         "title": "Lab.（新規事業開発室）企画・マーケティング長期インターン",
         "url": "https://herp.careers/v1/baseconnect/saR9fqsx169v"
@@ -236,22 +232,6 @@
   "GV-014": {
     "jobs": [
       {
-        "title": "Business8件",
-        "url": "https://herp.careers/v1/bluebank/requisition-groups/446eaecb-6375-485d-8cff-8687e4055676"
-      },
-      {
-        "title": "corporate3件",
-        "url": "https://herp.careers/v1/bluebank/requisition-groups/7403a734-4cb6-4dd0-bfb2-0e6ef29ca12f"
-      },
-      {
-        "title": "Development11件",
-        "url": "https://herp.careers/v1/bluebank/requisition-groups/6d43bbb4-870a-402f-a83c-03cb7eb415d6"
-      },
-      {
-        "title": "アルバイト/インターン2件",
-        "url": "https://herp.careers/v1/bluebank/requisition-groups/48fb3334-8a8c-4512-9291-e91e83f5558b"
-      },
-      {
         "title": "【Business】CX（カスタマーエクスペリエンス）",
         "url": "https://herp.careers/v1/bluebank/I35ooQAJsFjL"
       },
@@ -314,6 +294,22 @@
       {
         "title": "【Dev】エンジニアリングマネージャー",
         "url": "https://herp.careers/v1/bluebank/L6R1HBugC3J2"
+      },
+      {
+        "title": "【Dev】エンジニア職種全般窓口",
+        "url": "https://herp.careers/v1/bluebank/8l-qmSGwBYGf"
+      },
+      {
+        "title": "【Dev】データエンジニア",
+        "url": "https://herp.careers/v1/bluebank/b2d1EG8mQBTa"
+      },
+      {
+        "title": "【Dev】プロダクトマネージャー",
+        "url": "https://herp.careers/v1/bluebank/bpWG87uFw9xZ"
+      },
+      {
+        "title": "【Dev】モバイルエンジニア(Flutter)",
+        "url": "https://herp.careers/v1/bluebank/KUmtSLj62gy0"
       }
     ],
     "level": "A",
@@ -322,18 +318,6 @@
   },
   "GV-015": {
     "jobs": [
-      {
-        "title": "オープンポジション1件",
-        "url": "https://herp.careers/v1/techdoctor/requisition-groups/ea37e890-35bd-4c0e-ac6f-afcd65207720"
-      },
-      {
-        "title": "データサイエンティスト1件",
-        "url": "https://herp.careers/v1/techdoctor/requisition-groups/c072d57c-58ee-40e0-a6c3-61a8febb4f73"
-      },
-      {
-        "title": "バックオフィス1件",
-        "url": "https://herp.careers/v1/techdoctor/requisition-groups/0f4da216-800a-4822-84af-b3c5a090f6b8"
-      },
       {
         "title": "オープンポジション",
         "url": "https://herp.careers/v1/techdoctor/dfzq8-yCJ7hd"
@@ -353,14 +337,6 @@
   },
   "GV-016": {
     "jobs": [
-      {
-        "title": "エンジニア職5件",
-        "url": "https://herp.careers/v1/fastlabel/requisition-groups/56973e93-b548-4ac8-8f79-2568ef88f717"
-      },
-      {
-        "title": "ビジネス職7件",
-        "url": "https://herp.careers/v1/fastlabel/requisition-groups/deffcb93-8f72-4191-819e-f8d5bf844e7b"
-      },
       {
         "title": "カジュアル面談お申し込みフォーム",
         "url": "https://herp.careers/v1/fastlabel/kjufpGySpvkm"
@@ -563,30 +539,6 @@
   "GV-029": {
     "jobs": [
       {
-        "title": "01.セールス3件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/ac1b20b1-67e8-44e4-96d9-530d7d0cd133"
-      },
-      {
-        "title": "02.CS2件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/3fbd4d96-da11-4245-8de7-5a5fd941ec8d"
-      },
-      {
-        "title": "03.マーケティング3件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/5f567e81-cafa-4c39-b5f9-591fa41fa67d"
-      },
-      {
-        "title": "04. アウトソーシング部門1件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/b09cbe25-5c40-4d07-bc8c-52e477f7608a"
-      },
-      {
-        "title": "05.エンジニア2件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/bfcc16dc-18e4-4fce-921d-2c169427216b"
-      },
-      {
-        "title": "07. 事業責任者1件",
-        "url": "https://herp.careers/v1/gaxi/requisition-groups/5d31e3fa-c83a-4494-9364-a40b81ed4393"
-      },
-      {
         "title": "オープンポジション",
         "url": "https://herp.careers/v1/gaxi/DXAP3NEhXMMP"
       },
@@ -641,6 +593,22 @@
       {
         "title": "メディア事業本部_マーケティング責任者候補",
         "url": "https://herp.careers/v1/gaxi/p8uJo0pGiDiD"
+      },
+      {
+        "title": "メディア事業本部_学内キャリアアドバイザー",
+        "url": "https://herp.careers/v1/gaxi/5M7VlM_R7zDr"
+      },
+      {
+        "title": "メディア事業本部_広告営業",
+        "url": "https://herp.careers/v1/gaxi/2hGxg5yNUtyf"
+      },
+      {
+        "title": "開発_Webアプリケーションエンジニア_メンバー",
+        "url": "https://herp.careers/v1/gaxi/FejpJD6U8bBx"
+      },
+      {
+        "title": "開発_Webアプリケーションエンジニア_リード",
+        "url": "https://herp.careers/v1/gaxi/_tfyw95dcu-h"
       }
     ],
     "level": "A",
@@ -649,18 +617,6 @@
   },
   "GV-030": {
     "jobs": [
-      {
-        "title": "BIM／CIMコンサルティング事業10件",
-        "url": "https://herp.careers/v1/malme/requisition-groups/90cf2d5d-7dd0-4f9d-9d4c-e9957d15924b"
-      },
-      {
-        "title": "Sales部門2件",
-        "url": "https://herp.careers/v1/malme/requisition-groups/787a6f0a-28f8-4a0c-9a0e-16116f54af33"
-      },
-      {
-        "title": "土木SaaS事業8件",
-        "url": "https://herp.careers/v1/malme/requisition-groups/20953444-c293-46c2-be1c-3eef7835df7e"
-      },
       {
         "title": "AIエンジニア（業務委託）",
         "url": "https://herp.careers/v1/malme/4BSNqJg8-Wqh"
@@ -728,6 +684,18 @@
       {
         "title": "施工BIM/CIM技術者",
         "url": "https://herp.careers/v1/malme/qyL1ZTkaEkc2"
+      },
+      {
+        "title": "施工チームマネージャー",
+        "url": "https://herp.careers/v1/malme/IpZMZsU9ZpGb"
+      },
+      {
+        "title": "社員紹介(リファラル)応募フォーム",
+        "url": "https://herp.careers/v1/malme/UmvWA7Ak1eTL"
+      },
+      {
+        "title": "設計BIM/CIM技術者　橋梁領域※BIMCIM未経験可",
+        "url": "https://herp.careers/v1/malme/-eert9H71cXf"
       }
     ],
     "level": "A",
@@ -917,23 +885,23 @@
   "GV-052": {
     "jobs": [
       {
-        "title": "01_ソフトウェアエンジニア",
+        "title": "ソフトウェアエンジニア",
         "url": "https://herp.careers/v1/smartcraft/hjiOkCrmDcUp"
       },
       {
-        "title": "02_フィールドセールス",
+        "title": "フィールドセールス",
         "url": "https://herp.careers/v1/smartcraft/2n05dIzKuc4N"
       },
       {
-        "title": "03_人事・広報",
+        "title": "人事・広報",
         "url": "https://herp.careers/v1/smartcraft/Ao69-pY7SDd9"
       },
       {
-        "title": "04_オープンポジション",
+        "title": "オープンポジション",
         "url": "https://herp.careers/v1/smartcraft/rMmAsZSFUhPU"
       },
       {
-        "title": "05_UI/UXデザイナー",
+        "title": "UI/UXデザイナー",
         "url": "https://herp.careers/v1/smartcraft/vEZxgc9nUaKH"
       }
     ],
