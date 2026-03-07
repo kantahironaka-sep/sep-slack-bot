@@ -2,14 +2,6 @@ const { PORTFOLIO } = require("./portfolio");
 
 function scoreEmoji(s) { return s >= 85 ? "🔥" : s >= 70 ? "🎯" : s >= 55 ? "💡" : "📌"; }
 
-function buildJobSearchUrl(company, position) {
-  const isWantedly = (company.recruitUrl || "").includes("wantedly.com");
-  const query = isWantedly
-    ? `site:wantedly.com ${company.name} ${position}`
-    : `${company.name} ${position} 採用`;
-  return "https://www.google.com/search?q=" + encodeURIComponent(query);
-}
-
 function formatMatchResult(result) {
   const { profile, matches } = result;
   const salaryInfo = profile.current_salary
@@ -93,7 +85,7 @@ function formatMatchResult(result) {
 
     const actions = [];
     if (c && c.recruitUrl) actions.push({ type:"button", text:{ type:"plain_text", text:"📋 採用ページ", emoji:true }, url:c.recruitUrl, action_id:"r_"+m.company_id });
-    if (c) actions.push({ type:"button", text:{ type:"plain_text", text:"🔍 該当求人を検索", emoji:true }, url:buildJobSearchUrl(c, m.position), action_id:"s_"+m.company_id });
+
     if (actions.length) blocks.push({ type:"actions", elements:actions });
     if (i < matches.length-1) blocks.push({ type:"divider" });
   });
