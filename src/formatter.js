@@ -2,8 +2,10 @@ const { PORTFOLIO } = require("./portfolio");
 
 function scoreEmoji(s) { return s >= 85 ? "🔥" : s >= 70 ? "🎯" : s >= 55 ? "💡" : "📌"; }
 
-function formatMatchResult(result) {
+function formatMatchResult(result, jobLinks) {
   const { profile, matches } = result;
+  const jobLinkMap = {};
+  if (jobLinks) jobLinks.forEach(j => { jobLinkMap[j.companyId] = j; });
   const salaryInfo = profile.current_salary
     ? `💴 *現年収:* ${profile.current_salary}万円（明記）`
     : `💴 *推定年収:* ${profile.estimated_salary}万円（フェルミ推定）`;
