@@ -85,6 +85,12 @@ function formatMatchResult(result) {
 
     const actions = [];
     if (c && c.recruitUrl) actions.push({ type:"button", text:{ type:"plain_text", text:"📋 採用ページ", emoji:true }, url:c.recruitUrl, action_id:"r_"+m.company_id });
+    const jl = jobLinkMap[m.company_id];
+    if (jl && jl.type === "direct") {
+      actions.push({ type:"button", text:{ type:"plain_text", text:"✅ 該当求人", emoji:true }, url:jl.url, action_id:"j_"+m.company_id, style:"primary" });
+    } else if (jl && jl.type === "search") {
+      actions.push({ type:"button", text:{ type:"plain_text", text:"🔍 該当求人を検索", emoji:true }, url:jl.url, action_id:"s_"+m.company_id });
+    }
 
     if (actions.length) blocks.push({ type:"actions", elements:actions });
     if (i < matches.length-1) blocks.push({ type:"divider" });
