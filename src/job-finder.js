@@ -12,8 +12,8 @@ function shouldSkip(url) {
 function buildGoogleSearchUrl(name, position, recruitUrl) {
   const isWantedly = (recruitUrl || "").includes("wantedly.com");
   const q = isWantedly
-    ? `site:wantedly.com ${name} ${position}`
-    : `(site:herp.careers OR site:wantedly.com OR site:green-japan.com) ${name} ${position}`;
+    ? `site:wantedly.com ${name} 募集`
+    : `(site:herp.careers OR site:wantedly.com OR site:green-japan.com) ${name} 求人`;
   return "https://www.google.com/search?q=" + encodeURIComponent(q);
 }
 
