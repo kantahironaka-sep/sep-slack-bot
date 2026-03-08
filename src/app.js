@@ -4,6 +4,7 @@ const { matchTalent, extractTextFromFile, getPortfolioByFilter } = require("./ma
 const { findJobUrls } = require("./job-finder");
 const { formatMatchResult, formatPortfolioList, formatError, formatLoading } = require("./formatter");
 const { saveFeedback } = require("./feedback");
+const { syncPortfolio } = require("./syncPortfolio");
 
 const ALLOWED_USERS = (process.env.ALLOWED_USERS || "").split(",").map(s => s.trim()).filter(Boolean);
 const RESULT_CHANNEL = process.env.RESULT_CHANNEL || "";
@@ -265,6 +266,15 @@ app.view("feedback_modal", async ({ ack, body, view, client }) => {
 app.action(/^r_/, async ({ ack }) => { await ack(); });
 
 (async () => {
+  // 起動時にSheetsからポートフォリオを同期
+  if (process.env.PORTFOLIO_SHEET_ID) {
+    try {
+      await syncPortfolio();
+      console.log("✅ ポートフォリオ同期完了");
+    } catch(e) {
+      console.log("⚠️ ポートフォリオ同期失敗（既存データで継続）:", e.message);
+    }
+  }
   await app.start();
   console.log("⚡ SEP Talent Matcher Bot is running!");
   console.log("🔒 許可ユーザー:", ALLOWED_USERS.length ? ALLOWED_USERS.join(", ") : "全員");
