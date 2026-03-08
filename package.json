@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node src/app.js",
     "fetch-jobs": "node scripts/fetch-jobs.js",
+    "sync-portfolio": "node src/syncPortfolio.js",
+    "update-all": "node src/syncPortfolio.js && node scripts/fetch-jobs.js",
     "dev": "node --watch src/app.js"
   },
   "dependencies": {

@@ -20,6 +20,43 @@ async function fetchPage(url) {
   return await res.text();
 }
 
+// JD本文を取得（HERPの個別求人ページ）
+async function fetchJobDescription(url) {
+  try {
+    const html = await fetchPage(url);
+    const $ = cheerio.load(html);
+
+    // HERPの求人詳細ページから本文を抽出
+    const texts = [];
+
+    // メインコンテンツ候補セレクター（HERPの構造）
+    const selectors = [
+      "main", "article", "[class*='job']", "[class*='position']",
+      "[class*='content']", "[class*='detail']", ".description"
+    ];
+
+    for (const sel of selectors) {
+      const el = $(sel);
+      if (el.length > 0) {
+        const text = el.text().replace(/\s+/g, " ").trim();
+        if (text.length > 200) { texts.push(text); break; }
+      }
+    }
+
+    // フォールバック: bodyから主要テキスト
+    if (texts.length === 0) {
+      const bodyText = $("body").text().replace(/\s+/g, " ").trim();
+      if (bodyText.length > 100) texts.push(bodyText);
+    }
+
+    const raw = texts[0] || "";
+    // 最大500文字に圧縮（AIへ渡すため）
+    return raw.substring(0, 500);
+  } catch (e) {
+    return "";
+  }
+}
+
 async function fetchHerpJobs(slug) {
   const html = await fetchPage("https://herp.careers/v1/" + slug);
   const $ = cheerio.load(html);
@@ -36,6 +73,16 @@ async function fetchHerpJobs(slug) {
       }
     }
   });
+
+  // 各求人のJD本文を取得（並列・最大10件）
+  const jobsToFetch = jobs.slice(0, 10);
+  console.log("  📖 JD本文取得中... " + jobsToFetch.length + "件");
+  const descriptions = await Promise.all(jobsToFetch.map(j => fetchJobDescription(j.url)));
+  jobsToFetch.forEach((j, i) => { j.description = descriptions[i]; });
+
+  // 残りのjobs（11件以降）はdescriptionなし
+  jobs.slice(10).forEach(j => { j.description = ""; });
+
   return jobs;
 }
 
@@ -50,7 +97,7 @@ async function fetchWantedlyJobs(url) {
       if (href.includes("/projects/") && text.length > 5 && text.length < 200) {
         const fullUrl = href.startsWith("http") ? href : "https://www.wantedly.com" + href;
         if (!jobs.find(j => j.url === fullUrl)) {
-          jobs.push({ title: cleanJobTitle(text), url: fullUrl });
+          jobs.push({ title: cleanJobTitle(text), url: fullUrl, description: "" });
         }
       }
     });
@@ -71,7 +118,7 @@ async function fetchGenericJobs(url) {
         let fullUrl = href;
         try { fullUrl = new URL(href, url).href; } catch {}
         if (!jobs.find(j => j.url === fullUrl)) {
-          jobs.push({ title: $(el).text().trim(), url: fullUrl });
+          jobs.push({ title: $(el).text().trim(), url: fullUrl, description: "" });
         }
       }
     });
@@ -90,8 +137,7 @@ async function main() {
     let level = "C";
 
     if (!url) {
-      level = "C";
-      noUrlCount++;
+      level = "C"; noUrlCount++;
       console.log("⬜ " + c.id + " " + c.name + " → URL無し (Level C)");
     } else if (url.includes("herp.careers")) {
       try {
