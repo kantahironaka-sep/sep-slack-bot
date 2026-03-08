@@ -20,7 +20,9 @@ function findFromCache(companyId, position) {
   let best = null, bestScore = 0;
   for (const job of cached.jobs) {
     const title = job.title.toLowerCase();
-    const score = kws.filter(k => title.includes(k)).length;
+    const desc = (job.description || "").toLowerCase();
+    const score = kws.filter(k => title.includes(k)).length * 2  // titleマッチは2倍重み
+               + kws.filter(k => desc.includes(k)).length;
     if (score > bestScore) { bestScore = score; best = job; }
   }
   if (best && bestScore >= 1) {
