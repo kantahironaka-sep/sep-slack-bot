@@ -67,7 +67,7 @@ function formatMatchResult(result, jobLinks) {
       : "💰 *年収レンジ:* 算定中";
 
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:[
-      emoji + " *#" + (i+1) + " " + m.company_name + "* — " + (m.match_type === "future" ? "🔮 先読み推薦" : "📍 現在フィット") + " *" + m.match_score + "点*",
+      emoji + " *#" + (i+1) + " " + m.company_name + "* " + (m.funding_boost ? "💰 " : "") + "— " + (m.match_type === "future" ? "🔮 先読み推薦" : "📍 現在フィット") + " *" + m.match_score + "点*" + (m.funding_boost ? " _(資金調達ブースト+10)_" : ""),
       "📌 *推薦ポジション:* " + m.position,
       (c ? c.sector + " | " + c.stage + " | " + c.teamSize : ""),
       jdStatus,

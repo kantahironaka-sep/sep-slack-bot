@@ -1,5 +1,7 @@
 const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
+const { getFundingBoostedIds } = require("./press-monitor");
+const { getFundingBoostedIds } = require("./press-monitor");
 const { Anonymizer } = require("./anonymizer");
 const { extractText } = require("unpdf");
 const mammoth = require("mammoth");

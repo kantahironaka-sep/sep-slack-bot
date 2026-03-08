@@ -5,6 +5,7 @@ const { findJobUrls } = require("./job-finder");
 const { formatMatchResult, formatPortfolioList, formatError, formatLoading } = require("./formatter");
 const { saveFeedback } = require("./feedback");
 const { syncPortfolio } = require("./syncPortfolio");
+const { checkFundingNews, getFundingBoostedIds } = require("./press-monitor");
 
 const ALLOWED_USERS = (process.env.ALLOWED_USERS || "").split(",").map(s => s.trim()).filter(Boolean);
 const RESULT_CHANNEL = process.env.RESULT_CHANNEL || "";
@@ -277,6 +278,27 @@ app.action(/^r_/, async ({ ack }) => { await ack(); });
   }
   await app.start();
   console.log("⚡ SEP Talent Matcher Bot is running!");
+
+  // 毎朝9時に資金調達ニュースをチェック
+  const { execSync } = require("child_process");
+  async function runPressCheck() {
+    console.log("📰 プレスチェック開始...");
+    await checkFundingNews(async ({ companyId, title, link }) => {
+      if (!RESULT_CHANNEL) return;
+      await app.client.chat.postMessage({
+        channel: RESULT_CHANNEL,
+        text: `📢 *資金調達検知！* \n*${companyId}* がニュースに登場しました。マッチング優先度を+10点ブーストします。\n📰 ${title}\n🔗 ${link}`
+      });
+    });
+    console.log("📰 プレスチェック完了");
+  }
+
+  // 起動時に1回実行 + 毎朝9時に定期実行
+  runPressCheck();
+  setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 9 && now.getMinutes() === 0) runPressCheck();
+  }, 60 * 1000);
   console.log("🔒 許可ユーザー:", ALLOWED_USERS.length ? ALLOWED_USERS.join(", ") : "全員");
   console.log("📢 結果チャンネル:", RESULT_CHANNEL || "未設定");
   console.log("👀 監視チャンネル:", WATCH_CHANNELS.length ? WATCH_CHANNELS.join(", ") : "未設定");
