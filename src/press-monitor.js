@@ -1,4 +1,41 @@
 require("dotenv").config();
+const {google} = require("googleapis");
+function getSheetsClient() {
+  const pk = Buffer.from(process.env.GOOGLE_PRIVATE_KEY,'base64').toString('utf8');
+  const auth = new google.auth.GoogleAuth({
+    credentials:{client_email:process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,private_key:pk},
+    scopes:['https://www.googleapis.com/auth/spreadsheets']
+  });
+  return google.sheets({version:'v4',auth});
+}
+
+async function updateFundingInSheets(companyId, title, link) {
+  if (!process.env.PORTFOLIO_SHEET_ID) return;
+  try {
+    const s = getSheetsClient();
+    const r = await s.spreadsheets.values.get({
+      spreadsheetId: process.env.PORTFOLIO_SHEET_ID,
+      range: 'Portfolio_DB!A4:A200'
+    });
+    const rows = r.data.values || [];
+    const rowIndex = rows.findIndex(row => row[0] === companyId);
+    if (rowIndex === -1) return;
+    const rowNum = rowIndex + 4;
+    const today = new Date().toISOString().split('T')[0];
+    // AC列(latest_round_date=28), AQ列(last_updated=42), AP列(notes=41)
+    await s.spreadsheets.values.batchUpdate({
+      spreadsheetId: process.env.PORTFOLIO_SHEET_ID,
+      requestBody: { valueInputOption: 'USER_ENTERED', data: [
+        { range: `Portfolio_DB!AC${rowNum}`, values: [[today]] },
+        { range: `Portfolio_DB!AQ${rowNum}`, values: [[today]] },
+        { range: `Portfolio_DB!AP${rowNum}`, values: [[`[自動検知] ${title} ${link}`]] },
+      ]}
+    });
+    console.log(`✅ Sheets更新: ${companyId} latest_round_date=${today}`);
+  } catch(e) {
+    console.log('Sheets更新失敗:', e.message);
+  }
+}
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
@@ -88,6 +125,7 @@ async function checkFundingNews(notifyFn) {
         found.push({ companyId: company.id, title: item.title, link: item.link });
 
         if (notifyFn) await notifyFn({ companyId: company.id, title: item.title, link: item.link });
+        await updateFundingInSheets(company.id, item.title, item.link);
       }
     }
   }

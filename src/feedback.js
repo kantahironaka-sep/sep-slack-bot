@@ -27,7 +27,7 @@ async function appendToSheet(row){
   const s=await getSheets();
   if(!s||!SPREADSHEET_ID){saveToJson(row);return;}
   try{
-    await s.spreadsheets.values.append({spreadsheetId:SPREADSHEET_ID,range:SHEET_NAME+"!A:J",valueInputOption:"USER_ENTERED",requestBody:{values:[[row.timestamp,row.reviewer,row.candidate_type,row.primary_market,row.company_id,row.company_name,row.position,row.match_score,row.rating,row.comment]]}});
+    await s.spreadsheets.values.append({spreadsheetId:SPREADSHEET_ID,range:SHEET_NAME+"!A:J",valueInputOption:"USER_ENTERED",requestBody:{values:[[row.timestamp,row.reviewer,row.candidate_type,row.primary_market,row.company_id,row.company_name,row.position,row.match_score,row.rating,row.comment,row.funding_boost?"💰調達ブースト":""]]}});
     console.log("Sheets保存:",row.company_name,row.rating);
   }catch(e){console.error("Sheets失敗:",e.message);saveToJson(row);}
 }
@@ -40,8 +40,8 @@ function saveToJson(row){
   console.log("JSON保存:",row.company_name,row.rating);
 }
 
-async function saveFeedback({reviewer,candidateType,primaryMarket,companyId,companyName,position,matchScore,rating,comment}){
-  const row={timestamp:new Date().toISOString(),reviewer,candidate_type:candidateType||"",primary_market:primaryMarket||"",company_id:companyId,company_name:companyName,position:position||"",match_score:matchScore||0,rating,comment:comment||""};
+async function saveFeedback({reviewer,candidateType,primaryMarket,companyId,companyName,position,matchScore,rating,comment,fundingBoost}){
+  const row={timestamp:new Date().toISOString(),reviewer,candidate_type:candidateType||"",primary_market:primaryMarket||"",company_id:companyId,company_name:companyName,position:position||"",match_score:matchScore||0,rating,comment:comment||"",funding_boost:fundingBoost||false};
   await appendToSheet(row);
   return row;
 }
