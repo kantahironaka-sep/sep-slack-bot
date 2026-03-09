@@ -257,13 +257,13 @@ const PORTFOLIO = [
   },
   {
     "id": "GV-014",
-    "name": "Scheeme",
-    "nameEn": "Scheeme",
-    "sector": "GovTech",
+    "name": "BlueBank",
+    "nameEn": "BlueBank",
+    "sector": "Fintech",
     "stage": "Seed",
     "teamSize": "10-30名",
     "ceo": "不明",
-    "summary": "補助金申請をDXで簡単に",
+    "summary": "法人経営者向け会員制オーナーズアプリ（法人口座・ビジネスカード・資産管理）\n",
     "hiringNeeds": "全ポジション",
     "growthChallenges": "SME市場拡大",
     "keywords": [
@@ -274,7 +274,7 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.wantedly.com/companies/scheeme"
+    "recruitUrl": "https://herp.careers/v1/scheeme"
   },
   {
     "id": "GV-015",
