@@ -120,7 +120,7 @@ app.event("message", async ({ event, client }) => {
   const textTriggers = ["ご相談","候補者","紹介","レジュメ","経歴","CV","resume"];
   const hasTextTrigger = event.text && textTriggers.some(t => event.text.includes(t));
   if (resumeFiles.length === 0 && !hasTextTrigger) {
-    console.log("⏭️ レジュメファイルではなさそう:", event.files.map(f=>f.name).join(", "));
+    console.log("⏭️ レジュメファイルではなさそう:", (event.files || []).map(f=>f.name).join(", ") || "(ファイルなし)");
     return;
   }
 
