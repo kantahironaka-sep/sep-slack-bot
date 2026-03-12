@@ -141,7 +141,7 @@ app.event("message", async ({ event, client }) => {
       }
     }
 
-    if (profileText.trim().length < 30) {
+    if (profileText.trim().length < 10) {
       console.log("⚠️ テキストが短すぎてマッチング不可");
       return;
     }
