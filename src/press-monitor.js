@@ -175,36 +175,37 @@ function fetchHTML(url) {
 }
 
 async function scrapeLatestPressDate(companyName) {
-  const url = `https://prtimes.jp/main/html/searchrlp/key/${encodeURIComponent(companyName)}`;
+  // SSR対応のURL形式を使用（SPAではなくサーバーサイドレンダリング）
+  const url = `https://prtimes.jp/main/action.php?run=html&page=searchkey&search_word=${encodeURIComponent(companyName)}`;
   const html = await fetchHTML(url);
   const $ = cheerio.load(html);
 
-  // PR TIMES search results: look for <time> elements with datetime attribute
-  const timeEl = $("time[datetime]").first();
-  if (timeEl.length) {
-    const dt = timeEl.attr("datetime");
-    if (dt) return dt.split("T")[0]; // "2024-01-15T..." → "2024-01-15"
-  }
-
-  // Fallback: look for date text in article list items
-  const datePattern = /(\d{4})[年\/\-](\d{1,2})[月\/\-](\d{1,2})/;
+  const datePattern = /(\d{4})年(\d{1,2})月(\d{1,2})日/;
+  const today = new Date();
   let latestDate = null;
 
-  $("article, .list-article, [class*='article'], .search-result").each((i, el) => {
+  // 各記事をチェックし、企業名が一致するもののみ日付を取得
+  $("article").each((i, el) => {
     if (latestDate) return;
     const text = $(el).text();
+    // 企業名（株式会社付きまたはなし）が含まれるか確認
+    if (!text.includes(companyName)) return;
+
+    // 明示的な日付パターン「2026年3月18日」を探す
     const match = text.match(datePattern);
     if (match) {
       latestDate = `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+      return;
+    }
+
+    // 「X時間前」「X分前」パターン → 今日の日付
+    if (/\d+[時分]間前/.test(text)) {
+      latestDate = today.toISOString().split("T")[0];
+      return;
     }
   });
-  if (latestDate) return latestDate;
 
-  // Last resort: any date on the page
-  const match = $.text().match(datePattern);
-  if (match) return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
-
-  return null;
+  return latestDate;
 }
 
 async function checkLatestPressReleases() {
