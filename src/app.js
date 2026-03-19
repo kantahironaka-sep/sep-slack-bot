@@ -5,7 +5,7 @@ const { findJobUrls } = require("./job-finder");
 const { formatMatchResult, formatPortfolioList, formatError, formatLoading } = require("./formatter");
 const { saveFeedback } = require("./feedback");
 const { syncPortfolio } = require("./syncPortfolio");
-const { checkFundingNews, getFundingBoostedIds } = require("./press-monitor");
+const { checkFundingNews, getFundingBoostedIds, checkLatestPressReleases } = require("./press-monitor");
 
 const ALLOWED_USERS = (process.env.ALLOWED_USERS || "").split(",").map(s => s.trim()).filter(Boolean);
 const RESULT_CHANNEL = process.env.RESULT_CHANNEL || "";
@@ -293,11 +293,27 @@ app.action(/^r_/, async ({ ack }) => { await ack(); });
     console.log("📰 プレスチェック完了");
   }
 
-  // 起動時に1回実行 + 毎朝9時に定期実行
+  // 毎週月曜朝9時にPR TIMESプレスリリース日チェック
+  async function runPressDateCheck() {
+    console.log("📰 PR TIMESプレス日チェック開始...");
+    try {
+      await checkLatestPressReleases();
+      console.log("📰 PR TIMESプレス日チェック完了");
+    } catch(e) {
+      console.error("📰 プレス日チェックエラー:", e.message);
+    }
+  }
+
+  // 起動時に1回実行 + 毎朝9時に定期実行（資金調達） + 毎週月曜9時（プレス日）
   runPressCheck();
+  runPressDateCheck();
   setInterval(() => {
     const now = new Date();
-    if (now.getHours() === 9 && now.getMinutes() === 0) runPressCheck();
+    if (now.getHours() === 9 && now.getMinutes() === 0) {
+      runPressCheck();
+      // 月曜日(1)の場合のみプレス日チェック
+      if (now.getDay() === 1) runPressDateCheck();
+    }
   }, 60 * 1000);
   console.log("🔒 許可ユーザー:", ALLOWED_USERS.length ? ALLOWED_USERS.join(", ") : "全員");
   console.log("📢 結果チャンネル:", RESULT_CHANNEL || "未設定");

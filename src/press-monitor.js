@@ -1,5 +1,6 @@
 require("dotenv").config();
 const {google} = require("googleapis");
+const cheerio = require("cheerio");
 function getSheetsClient() {
   const pk = Buffer.from(process.env.GOOGLE_PRIVATE_KEY,'base64').toString('utf8');
   const auth = new google.auth.GoogleAuth({
@@ -22,13 +23,14 @@ async function updateFundingInSheets(companyId, title, link) {
     if (rowIndex === -1) return;
     const rowNum = rowIndex + 4;
     const today = new Date().toISOString().split('T')[0];
-    // AC列(latest_round_date=28), AQ列(last_updated=42), AP列(notes=41)
+    // AC列(latest_round_date=28), AQ列(last_updated=42), AR列(funding_notes=43)
+    // ※AP列(41)はlatest_press_date用に変更済み
     await s.spreadsheets.values.batchUpdate({
       spreadsheetId: process.env.PORTFOLIO_SHEET_ID,
       requestBody: { valueInputOption: 'USER_ENTERED', data: [
         { range: `Portfolio_DB!AC${rowNum}`, values: [[today]] },
         { range: `Portfolio_DB!AQ${rowNum}`, values: [[today]] },
-        { range: `Portfolio_DB!AP${rowNum}`, values: [[`[自動検知] ${title} ${link}`]] },
+        { range: `Portfolio_DB!AR${rowNum}`, values: [[`[自動検知] ${title} ${link}`]] },
       ]}
     });
     console.log(`✅ Sheets更新: ${companyId} latest_round_date=${today}`);
@@ -148,4 +150,138 @@ function getFundingBoostedIds() {
   return boosted;
 }
 
-module.exports = { checkFundingNews, getFundingBoostedIds };
+// === PR TIMES 最新プレスリリース日取得 ===
+
+const PRESS_DATE_CACHE_PATH = path.join(__dirname, "press-date-cache.json");
+
+function loadPressDateCache() {
+  try { return JSON.parse(fs.readFileSync(PRESS_DATE_CACHE_PATH, "utf8")); } catch { return {}; }
+}
+function savePressDateCache(cache) {
+  fs.writeFileSync(PRESS_DATE_CACHE_PATH, JSON.stringify(cache, null, 2));
+}
+
+function fetchHTML(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible; SEPBot/1.0)" } }, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return fetchHTML(res.headers.location).then(resolve).catch(reject);
+      }
+      let data = "";
+      res.on("data", chunk => data += chunk);
+      res.on("end", () => resolve(data));
+    }).on("error", reject);
+  });
+}
+
+async function scrapeLatestPressDate(companyName) {
+  const url = `https://prtimes.jp/main/html/searchrlp/key/${encodeURIComponent(companyName)}`;
+  const html = await fetchHTML(url);
+  const $ = cheerio.load(html);
+
+  // PR TIMES search results: look for <time> elements with datetime attribute
+  const timeEl = $("time[datetime]").first();
+  if (timeEl.length) {
+    const dt = timeEl.attr("datetime");
+    if (dt) return dt.split("T")[0]; // "2024-01-15T..." → "2024-01-15"
+  }
+
+  // Fallback: look for date text in article list items
+  const datePattern = /(\d{4})[年\/\-](\d{1,2})[月\/\-](\d{1,2})/;
+  let latestDate = null;
+
+  $("article, .list-article, [class*='article'], .search-result").each((i, el) => {
+    if (latestDate) return;
+    const text = $(el).text();
+    const match = text.match(datePattern);
+    if (match) {
+      latestDate = `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+    }
+  });
+  if (latestDate) return latestDate;
+
+  // Last resort: any date on the page
+  const match = $.text().match(datePattern);
+  if (match) return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
+
+  return null;
+}
+
+async function checkLatestPressReleases() {
+  const companies = getCompanyNames();
+  const cache = loadPressDateCache();
+
+  for (const company of companies) {
+    const name = company.names[0]; // Japanese name
+    if (!name) continue;
+    try {
+      const dateStr = await scrapeLatestPressDate(name);
+      if (dateStr) {
+        cache[company.id] = { latestDate: dateStr, checkedAt: new Date().toISOString(), companyName: name };
+        console.log(`📰 ${company.id} (${name}): 最新プレス ${dateStr}`);
+        await updatePressDateInSheets(company.id, dateStr);
+      } else {
+        console.log(`📰 ${company.id} (${name}): プレスリリース未検出`);
+      }
+      // Rate limiting: 1 second between requests
+      await new Promise(r => setTimeout(r, 1000));
+    } catch (e) {
+      console.log(`📰 ${company.id} スクレイピング失敗:`, e.message);
+    }
+  }
+
+  savePressDateCache(cache);
+  console.log(`📰 プレス日チェック完了: ${Object.keys(cache).length}社`);
+  return cache;
+}
+
+async function updatePressDateInSheets(companyId, dateStr) {
+  if (!process.env.PORTFOLIO_SHEET_ID) return;
+  try {
+    const s = getSheetsClient();
+    const r = await s.spreadsheets.values.get({
+      spreadsheetId: process.env.PORTFOLIO_SHEET_ID,
+      range: "Portfolio_DB!A4:A200"
+    });
+    const rows = r.data.values || [];
+    const rowIndex = rows.findIndex(row => row[0] === companyId);
+    if (rowIndex === -1) return;
+    const rowNum = rowIndex + 4;
+    // AP列(41) = latest_press_date
+    await s.spreadsheets.values.update({
+      spreadsheetId: process.env.PORTFOLIO_SHEET_ID,
+      range: `Portfolio_DB!AP${rowNum}`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: { values: [[dateStr]] }
+    });
+    console.log(`✅ プレス日更新: ${companyId} AP列=${dateStr}`);
+  } catch (e) {
+    console.log("プレス日Sheets更新失敗:", e.message);
+  }
+}
+
+// プレス日に基づくスコア調整値を返す
+function getPressScoreAdjustments() {
+  const cache = loadPressDateCache();
+  const adjustments = {};
+  const now = Date.now();
+  const THREE_MONTHS = 90 * 24 * 60 * 60 * 1000;
+  const SIX_MONTHS = 180 * 24 * 60 * 60 * 1000;
+
+  for (const [companyId, data] of Object.entries(cache)) {
+    if (!data.latestDate) continue;
+    const pressDate = new Date(data.latestDate).getTime();
+    if (isNaN(pressDate)) continue;
+    const diff = now - pressDate;
+    if (diff <= THREE_MONTHS) {
+      adjustments[companyId] = { score: 15, label: "3ヶ月以内", date: data.latestDate };
+    } else if (diff <= SIX_MONTHS) {
+      adjustments[companyId] = { score: 5, label: "6ヶ月以内", date: data.latestDate };
+    } else {
+      adjustments[companyId] = { score: -10, label: "6ヶ月以上", date: data.latestDate };
+    }
+  }
+  return adjustments;
+}
+
+module.exports = { checkFundingNews, getFundingBoostedIds, checkLatestPressReleases, getPressScoreAdjustments };

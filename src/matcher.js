@@ -1,6 +1,6 @@
 const Anthropic = require("@anthropic-ai/sdk");
 const { PORTFOLIO } = require("./portfolio");
-const { getFundingBoostedIds } = require("./press-monitor");
+const { getFundingBoostedIds, getPressScoreAdjustments } = require("./press-monitor");
 const { Anonymizer } = require("./anonymizer");
 const { extractText } = require("unpdf");
 const mammoth = require("mammoth");
@@ -151,6 +151,17 @@ async function matchTalent(profileText) {
       if (!byId && byName) {
         console.log(`⚠️ company_id "${m.company_id}" not found, resolved by name "${m.company_name}" → ${byName.id}`);
         m.company_id = byName.id;
+      }
+    });
+
+    // プレスリリース日に基づくスコア調整
+    const pressAdj = getPressScoreAdjustments();
+    result.matches.forEach(m => {
+      const adj = pressAdj[m.company_id];
+      if (adj) {
+        m.match_score = Math.max(0, Math.min(100, m.match_score + adj.score));
+        m.press_boost = { score: adj.score, label: adj.label, date: adj.date };
+        console.log(`📰 プレススコア調整: ${m.company_id} ${adj.score > 0 ? "+" : ""}${adj.score} (${adj.label})`);
       }
     });
   }
