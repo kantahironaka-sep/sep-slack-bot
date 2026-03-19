@@ -133,7 +133,13 @@ async function matchTalent(profileText) {
     messages: [{ role: "user", content: "以下の候補者プロフィールを構造化し、マッチング推薦を生成:\n\n" + anonymized }],
   });
   const text = msg.content.filter(b => b.type === "text").map(b => b.text).join("");
-  const result = JSON.parse(text.replace(/```json|```/g, "").trim());
+  let result;
+    try {
+      result = JSON.parse(text.replace(/```json|```/g, "").trim());
+    } catch (parseErr) {
+      console.error('JSONパースエラー:', text.slice(0, 200));
+      throw new Error('Claudeが非JSON応答を返しました: ' + text.slice(0, 100));
+    }
   if (result.profile) result.profile.name = anon.getOriginalName() || result.profile.name;
   result._originalName = anon.getOriginalName();
 
