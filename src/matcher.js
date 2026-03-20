@@ -123,6 +123,59 @@ ${JSON.stringify(PORTFOLIO.map(c=>{const jc=JOB_CACHE[c.id];return{id:c.id,name:
 
 【重要】company_idは必ず上記ポートフォリオデータのidフィールド（例: "GV-003", "GV-006"）を正確に使用してください。"GV-XXX"のようなプレースホルダーは絶対に使わないでください。`;
 
+// 成長速度スコア算定
+const ROUND_ORDER = ["pre-seed", "seed", "pre-a", "プレシリーズa", "series a", "シリーズa", "series b", "シリーズb", "series c", "シリーズc", "series d", "growth", "ipo"];
+function isSeriesAOrAbove(round) {
+  if (!round) return false;
+  const r = round.toLowerCase();
+  return ROUND_ORDER.indexOf(ROUND_ORDER.find(o => r.includes(o))) >= ROUND_ORDER.indexOf("series a");
+}
+function isSeedOrBelow(round) {
+  if (!round) return true;
+  const r = round.toLowerCase();
+  return r.includes("seed") || r.includes("pre-seed") || r.includes("pre-a") || r.includes("プレ") || r === "";
+}
+
+function calcGrowthVelocity(companyId) {
+  const c = PORTFOLIO.find(p => p.id === companyId);
+  if (!c || !c.founded_year) return null;
+
+  const foundedYear = parseInt(c.founded_year, 10);
+  if (isNaN(foundedYear)) return null;
+
+  const now = new Date();
+  const companyAge = now.getFullYear() - foundedYear;
+  // latest_roundがある場合はそちらを優先、なければstageを使用
+  const round = c.latest_round || c.stage || "";
+  // ラウンド情報が実データかどうか（latest_roundが空 かつ stageがデフォルトSeedなら不明扱い）
+  const hasRoundData = !!(c.latest_round || (c.stage && c.stage !== "Seed"));
+  const roundDate = c.latest_round_date ? new Date(c.latest_round_date) : null;
+  const yearsSinceRound = roundDate ? (now - roundDate) / (365.25 * 24 * 60 * 60 * 1000) : null;
+
+  // 創業3年以内 かつ シリーズA以上 → +20
+  if (companyAge <= 3 && isSeriesAOrAbove(round)) {
+    return { score: 20, label: `急成長（創業${companyAge}年でSeries A+）` };
+  }
+  // 創業3年以内 かつ シード/プレA → +10
+  if (companyAge <= 3 && isSeedOrBelow(round)) {
+    return { score: 10, label: `若い企業（創業${companyAge}年）` };
+  }
+  // 創業5年以内 かつ シリーズA以上 → +10
+  if (companyAge <= 5 && isSeriesAOrAbove(round)) {
+    return { score: 10, label: `順調成長（創業${companyAge}年でSeries A+）` };
+  }
+  // 創業7年以上 かつ 最終調達から2年以上経過 → -15
+  if (companyAge >= 7 && yearsSinceRound !== null && yearsSinceRound >= 2) {
+    return { score: -15, label: `停滞懸念（最終調達から${Math.floor(yearsSinceRound)}年）` };
+  }
+  // 創業7年以上 かつ シード止まり → -10（ラウンド情報がある場合のみ）
+  if (companyAge >= 7 && hasRoundData && isSeedOrBelow(round)) {
+    return { score: -10, label: `停滞懸念（創業${companyAge}年でSeed）` };
+  }
+
+  return null;
+}
+
 async function matchTalent(profileText) {
   const anon = new Anonymizer();
   const anonymized = anon.anonymize(profileText);
@@ -162,6 +215,14 @@ async function matchTalent(profileText) {
         m.match_score = Math.max(0, Math.min(100, m.match_score + adj.score));
         m.press_boost = { score: adj.score, label: adj.label, date: adj.date };
         console.log(`📰 プレススコア調整: ${m.company_id} ${adj.score > 0 ? "+" : ""}${adj.score} (${adj.label})`);
+      }
+
+      // 成長速度スコア調整
+      const growthAdj = calcGrowthVelocity(m.company_id);
+      if (growthAdj) {
+        m.match_score = Math.max(0, Math.min(100, m.match_score + growthAdj.score));
+        m.growth_boost = growthAdj;
+        console.log(`🚀 成長速度スコア: ${m.company_id} ${growthAdj.score > 0 ? "+" : ""}${growthAdj.score} (${growthAdj.label})`);
       }
     });
   }

@@ -67,7 +67,7 @@ function formatMatchResult(result, jobLinks) {
       : "💰 *年収レンジ:* 算定中";
 
     blocks.push({ type:"section", text:{ type:"mrkdwn", text:[
-      emoji + " *#" + (i+1) + " " + m.company_name + "* " + (m.funding_boost ? "💰 " : "") + (m.press_boost ? "📰 " : "") + "— " + (m.match_type === "future" ? "🔮 先読み推薦" : "📍 現在フィット") + " *" + m.match_score + "点*" + (m.funding_boost ? " _(資金調達ブースト+10)_" : "") + (m.press_boost ? ` _(プレス${m.press_boost.label}: ${m.press_boost.score > 0 ? "+" : ""}${m.press_boost.score})_` : ""),
+      emoji + " *#" + (i+1) + " " + m.company_name + "* " + (m.funding_boost ? "💰 " : "") + (m.press_boost ? "📰 " : "") + (m.growth_boost ? (m.growth_boost.score > 0 ? "🚀 " : "🐢 ") : "") + "— " + (m.match_type === "future" ? "🔮 先読み推薦" : "📍 現在フィット") + " *" + m.match_score + "点*" + (m.funding_boost ? " _(資金調達ブースト+10)_" : "") + (m.press_boost ? ` _(プレス${m.press_boost.label}: ${m.press_boost.score > 0 ? "+" : ""}${m.press_boost.score})_` : "") + (m.growth_boost ? ` _(${m.growth_boost.label}: ${m.growth_boost.score > 0 ? "+" : ""}${m.growth_boost.score})_` : ""),
       "📌 *推薦ポジション:* " + m.position,
       (c ? c.sector + " | " + c.stage + " | " + c.teamSize : ""),
       jdStatus,

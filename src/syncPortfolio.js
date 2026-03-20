@@ -41,6 +41,9 @@ async function syncPortfolio() {
       target_market:    row[47] || 'B2B',
       target_segment:   row[48] || 'SMB',
       recruitUrl:       row[46] || '',
+      founded_year:     row[4]  || '',   // E列
+      latest_round:     row[27] || '',   // AB列
+      latest_round_date:row[28] || '',   // AC列
     });
   }
   return portfolio;

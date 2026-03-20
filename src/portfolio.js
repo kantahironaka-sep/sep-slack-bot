@@ -18,7 +18,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://corp.timee.co.jp/recruit/"
+    "recruitUrl": "https://corp.timee.co.jp/recruit/",
+    "founded_year": "2017",
+    "latest_round": "IPO",
+    "latest_round_date": "2024-07"
   },
   {
     "id": "GV-003",
@@ -40,7 +43,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://corp.suke-dachi.jp/recruit"
+    "recruitUrl": "https://corp.suke-dachi.jp/recruit",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-004",
@@ -61,7 +67,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.photoruction.com/recruit"
+    "recruitUrl": "https://www.photoruction.com/recruit",
+    "founded_year": "2016",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-005",
@@ -82,7 +91,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://baseconnect.in/about/recruit"
+    "recruitUrl": "https://baseconnect.in/about/recruit",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-006",
@@ -104,7 +116,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://autify.com/ja/careers"
+    "recruitUrl": "https://autify.com/ja/careers",
+    "founded_year": "2016",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-007",
@@ -125,7 +140,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.wantedly.com/companies/zenport"
+    "recruitUrl": "https://www.wantedly.com/companies/zenport",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-008",
@@ -147,7 +165,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://www.shelfy.co.jp/recruit"
+    "recruitUrl": "https://www.shelfy.co.jp/recruit",
+    "founded_year": "2014",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-009",
@@ -169,7 +190,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-010",
@@ -190,7 +214,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B2C",
     "target_segment": "SMB",
-    "recruitUrl": "https://jobrainbow.jp/recruit"
+    "recruitUrl": "https://jobrainbow.jp/recruit",
+    "founded_year": "2016",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-011",
@@ -212,7 +239,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://docquity.com/careers"
+    "recruitUrl": "https://docquity.com/careers",
+    "founded_year": "2015",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-012",
@@ -233,7 +263,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.qoala.id/en/career"
+    "recruitUrl": "https://www.qoala.id/en/career",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-013",
@@ -253,7 +286,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.linkedin.com/company/bfrfrrrobobox/jobs/"
+    "recruitUrl": "https://www.linkedin.com/company/bfrfrrrobobox/jobs/",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-014",
@@ -274,7 +310,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://herp.careers/v1/scheeme"
+    "recruitUrl": "https://herp.careers/v1/scheeme",
+    "founded_year": "2019",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-015",
@@ -295,7 +334,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "Enterprise",
-    "recruitUrl": "https://www.technology-doctor.com/recruit"
+    "recruitUrl": "https://www.technology-doctor.com/recruit",
+    "founded_year": "2019",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-016",
@@ -317,7 +359,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://fastlabel.ai/careers"
+    "recruitUrl": "https://fastlabel.ai/careers",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-017",
@@ -338,7 +383,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://www.wantedly.com/companies/company_2277005"
+    "recruitUrl": "https://www.wantedly.com/companies/company_2277005",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-018",
@@ -358,7 +406,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://route06.co.jp/careers"
+    "recruitUrl": "https://route06.co.jp/careers",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-019",
@@ -379,7 +430,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.acall.inc/recruit"
+    "recruitUrl": "https://www.acall.inc/recruit",
+    "founded_year": "2015",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-021",
@@ -400,7 +454,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://kamereo.vn/tuyen-dung"
+    "recruitUrl": "https://kamereo.vn/tuyen-dung",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-022",
@@ -421,7 +478,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://career.buymed.com/"
+    "recruitUrl": "https://career.buymed.com/",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-023",
@@ -442,7 +502,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://manabie.com/careers"
+    "recruitUrl": "https://manabie.com/careers",
+    "founded_year": "2019",
+    "latest_round": "Series B",
+    "latest_round_date": ""
   },
   {
     "id": "GV-024",
@@ -463,7 +526,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-025",
@@ -485,7 +551,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-026",
@@ -506,7 +575,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2018",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-027",
@@ -527,7 +599,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://www.wantedly.com/companies/petokoto"
+    "recruitUrl": "https://www.wantedly.com/companies/petokoto",
+    "founded_year": "2017",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-028",
@@ -547,7 +622,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://funfo.co.jp/recruit"
+    "recruitUrl": "https://funfo.co.jp/recruit",
+    "founded_year": "2019",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-029",
@@ -568,7 +646,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://gaxi.co.jp/recruit"
+    "recruitUrl": "https://gaxi.co.jp/recruit",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-030",
@@ -589,7 +670,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.malme.net/recruit"
+    "recruitUrl": "https://www.malme.net/recruit",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-031",
@@ -610,7 +694,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": ""
   },
   {
     "id": "GV-032",
@@ -632,7 +719,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://replayce.co.jp/recruit"
+    "recruitUrl": "https://replayce.co.jp/recruit",
+    "founded_year": "2024",
+    "latest_round": "Series A",
+    "latest_round_date": "2025-10"
   },
   {
     "id": "GV-033",
@@ -654,7 +744,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://mokable.jp/careers"
+    "recruitUrl": "https://mokable.jp/careers",
+    "founded_year": "2025",
+    "latest_round": "Seed",
+    "latest_round_date": "2025-10"
   },
   {
     "id": "GV-034",
@@ -675,7 +768,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2021",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-035",
@@ -696,7 +792,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://liberont.com/career"
+    "recruitUrl": "https://liberont.com/career",
+    "founded_year": "2024",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-036",
@@ -718,7 +817,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2021",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-037",
@@ -740,7 +842,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "Enterprise",
-    "recruitUrl": "https://amoibe.co.jp/recruit"
+    "recruitUrl": "https://amoibe.co.jp/recruit",
+    "founded_year": "2014",
+    "latest_round": "Seed",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-038",
@@ -761,7 +866,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://cierpa.co.jp/recruit"
+    "recruitUrl": "https://cierpa.co.jp/recruit",
+    "founded_year": "2019",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-039",
@@ -777,7 +885,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2019",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-040",
@@ -798,7 +909,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.linkedin.com/company/luxstay/jobs/"
+    "recruitUrl": "https://www.linkedin.com/company/luxstay/jobs/",
+    "founded_year": "2016",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-041",
@@ -814,7 +928,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2021",
+    "latest_round": "Seed",
+    "latest_round_date": ""
   },
   {
     "id": "GV-042",
@@ -830,7 +947,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "Seed",
+    "latest_round_date": ""
   },
   {
     "id": "GV-043",
@@ -846,7 +966,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "Angel/Seed",
+    "latest_round_date": ""
   },
   {
     "id": "GV-044",
@@ -862,7 +985,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "Seed",
+    "latest_round_date": ""
   },
   {
     "id": "GV-045",
@@ -883,7 +1009,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "Series A",
+    "latest_round_date": "2025-11"
   },
   {
     "id": "GV-046",
@@ -902,7 +1031,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2022",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-047",
@@ -924,7 +1056,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2025",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-048",
@@ -940,7 +1075,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2021",
+    "latest_round": "Series A",
+    "latest_round_date": "2025-07"
   },
   {
     "id": "GV-049",
@@ -960,7 +1098,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2021",
+    "latest_round": "",
+    "latest_round_date": "2025-06"
   },
   {
     "id": "GV-050",
@@ -976,7 +1117,10 @@ const PORTFOLIO = [
     "keywords": [],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-051",
@@ -997,7 +1141,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.skygate-tech.com/recruit"
+    "recruitUrl": "https://www.skygate-tech.com/recruit",
+    "founded_year": "2023",
+    "latest_round": "Series A",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-052",
@@ -1019,7 +1166,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://smartcraft.jp/recruit"
+    "recruitUrl": "https://smartcraft.jp/recruit",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-053",
@@ -1041,7 +1191,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://thephage.life/recruit"
+    "recruitUrl": "https://thephage.life/recruit",
+    "founded_year": "2021",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": "2024"
   },
   {
     "id": "GV-054",
@@ -1062,7 +1215,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://ecrowd.co.jp/recruit"
+    "recruitUrl": "https://ecrowd.co.jp/recruit",
+    "founded_year": "2020",
+    "latest_round": "",
+    "latest_round_date": ""
   },
   {
     "id": "GV-055",
@@ -1084,7 +1240,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2023",
+    "latest_round": "Seed",
+    "latest_round_date": "2024"
   },
   {
     "id": "GV-056",
@@ -1105,7 +1264,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://www.wantedly.com/companies/japancareer"
+    "recruitUrl": "https://www.wantedly.com/companies/japancareer",
+    "founded_year": "2024",
+    "latest_round": "Pre-Seed",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-057",
@@ -1127,7 +1289,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2C",
     "target_segment": "Consumer",
-    "recruitUrl": "https://entaar.com/recruit"
+    "recruitUrl": "https://entaar.com/recruit",
+    "founded_year": "2021",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-058",
@@ -1147,7 +1312,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "Enterprise",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2022",
+    "latest_round": "Seed",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-059",
@@ -1169,7 +1337,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（要調査）"
+    "recruitUrl": "（要調査）",
+    "founded_year": "2024",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-060",
@@ -1191,7 +1362,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "（情報なし/未公開）"
+    "recruitUrl": "（情報なし/未公開）",
+    "founded_year": "2023",
+    "latest_round": "Seed",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-064",
@@ -1213,7 +1387,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.wantedly.com/companies/takumigiken"
+    "recruitUrl": "https://www.wantedly.com/companies/takumigiken",
+    "founded_year": "2020",
+    "latest_round": "Series A",
+    "latest_round_date": "2024-12"
   },
   {
     "id": "GV-065",
@@ -1235,7 +1412,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.wantedly.com/companies/kaitak"
+    "recruitUrl": "https://www.wantedly.com/companies/kaitak",
+    "founded_year": "2022",
+    "latest_round": "Seed",
+    "latest_round_date": "2025"
   },
   {
     "id": "GV-067",
@@ -1260,7 +1440,10 @@ const PORTFOLIO = [
     ],
     "target_market": "B2B",
     "target_segment": "SMB",
-    "recruitUrl": "https://www.wantedly.com/companies/TensorEnergy"
+    "recruitUrl": "https://www.wantedly.com/companies/TensorEnergy",
+    "founded_year": "2021",
+    "latest_round": "Pre-Series A",
+    "latest_round_date": "2024"
   }
 ];
 module.exports = { PORTFOLIO };
