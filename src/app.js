@@ -127,8 +127,6 @@ app.event("message", async ({ event, client }) => {
   console.log("🎯 レジュメファイル検出:", resumeFiles.map(f=>f.name).join(", "));
 
   try {
-    await client.reactions.add({ channel:event.channel, name:"white_check_mark", timestamp:event.ts });
-
     let profileText = event.text || "";
     for (const file of resumeFiles) {
       console.log("📎 ファイル読み取り中:", file.name);
