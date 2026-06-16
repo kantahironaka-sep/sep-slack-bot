@@ -1,6 +1,6 @@
 name: Weekly fetch-jobs
 
-on:
+on:workflow_dispatch
 
 jobs:
   fetch:
