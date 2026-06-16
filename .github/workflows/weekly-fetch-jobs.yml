@@ -1,7 +1,6 @@
 name: Weekly fetch-jobs
 
 on:
-  schedule:
 
 jobs:
   fetch:
